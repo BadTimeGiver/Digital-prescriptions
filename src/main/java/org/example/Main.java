@@ -73,11 +73,9 @@ public class Main {
         //Pharmacy Inputs
         JLabel pharmacy_nbr_label = new JLabel("Pharmacy Number:");
         JLabel address_label = new JLabel("Address:");
-        //JLabel age_label = new JLabel("Age:");
 
         JTextField pharmacy_nbr = new JTextField(8);
         JTextField address = new JTextField(8);
-        //JTextArea special_mention = new JTextArea(3,8);
 
         //set visibility of used items when signing up
         class set_visibility {
@@ -99,7 +97,10 @@ public class Main {
                 drRPPS.setVisible(check_visibility);
             }
             public void set_visibility_pharmacy(boolean check_visibility){
-
+                address.setVisible(check_visibility);
+                pharmacy_nbr.setVisible(check_visibility);
+                address_label.setVisible(check_visibility);
+                pharmacy_nbr_label.setVisible(check_visibility);
             }
         }
 
@@ -117,15 +118,14 @@ public class Main {
                 set_V.set_visibility_patient(false);
                 set_V.set_visibility_pharmacy(false);
                 set_V.set_visibility_doctor(true);
-            }else if (profession_CB.getSelectedItem() == "Patient"){
-
+            }
+            else if (profession_CB.getSelectedItem() == "Patient"){
                 set_visibility set_V = new set_visibility();
                 set_V.set_visibility_patient(true);
                 set_V.set_visibility_doctor(false);
                 set_V.set_visibility_pharmacy(false);
-
-
-            }else if(profession_CB.getSelectedItem() == "Pharmacist"){
+            }
+            else if(profession_CB.getSelectedItem() == "Pharmacist"){
                 set_visibility set_V = new set_visibility();
                 set_V.set_visibility_patient(false);
                 set_V.set_visibility_doctor(false);
@@ -145,10 +145,10 @@ public class Main {
                     JOptionPane.showMessageDialog(null, "RPPS is a number!!");
 
                 } else if (profession_CB.getSelectedItem() == "Patient" && (!height.getText().matches("-?\\d+(\\.\\d+)?") || !weight.getText().matches("-?\\d+(\\.\\d+)?") || !sec_number.getText().matches("-?\\d+(\\.\\d+)?") || !age.getText().matches("-?\\d+(\\.\\d+)?"))) {
-                    JOptionPane.showMessageDialog(null, "WRONG INPUT!!!");
+                    JOptionPane.showMessageDialog(null, "Wrong Input!!!");
                 }
-                else if(profession_CB.getSelectedItem() == "Pharmacist"){
-
+                else if(profession_CB.getSelectedItem() == "Pharmacist" && (!pharmacy_nbr.getText().matches("-?\\d+(\\.\\d+)?") || address.getText() == "")){
+                    JOptionPane.showMessageDialog(null, "Wrong Input!!");
                 }else {
                     is_in_sign_up[0] = false;
 

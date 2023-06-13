@@ -21,7 +21,7 @@ public class Pharmacy extends User {
         super(name, userName, password);
         this.pharamcyNbr = pharamcyNbr;
         this.address = address;
-        validate_medicine = new HashMap<>();
+        this.validate_medicine = new HashMap<>();
     }
 
 
