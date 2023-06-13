@@ -42,18 +42,21 @@ public class Main {
 
         frame.setLocationRelativeTo(null);
 
+        //User Inputs
         JButton login_btn = new JButton("Login");
         JButton sign_up = new JButton("Sign Up");
-        final Boolean[] is_in_sign_up = {true};
+        final Boolean[] is_in_sign_up = {false};
         JTextField user = new JTextField(8);
         JTextField name = new JTextField(8);
-        JTextField drRPPS = new JTextField(8);
-
         JPasswordField pass = new JPasswordField(8);
         JLabel name_label = new JLabel("Name:");
-        JLabel drRPPS_label = new JLabel("RPPS:");
         JLabel profession_label = new JLabel("Profession:");
 
+        //Dr Inputs
+        JLabel drRPPS_label = new JLabel("RPPS:");
+        JTextField drRPPS = new JTextField(8);
+
+        //User Inputs
         JLabel height_label = new JLabel("Height:");
         JLabel weight_label = new JLabel("Weight:");
         JLabel sec_number_label = new JLabel("Security Number:");
@@ -64,9 +67,19 @@ public class Main {
         JTextField height = new JTextField(8);
         JTextField weight = new JTextField(8);
         JTextField sec_number = new JTextField(8);
-        JTextArea special_mention = new JTextArea();
+        JTextArea special_mention = new JTextArea(3,8);
 
 
+        //Pharmacy Inputs
+        JLabel pharmacy_nbr_label = new JLabel("Pharmacy Number:");
+        JLabel address_label = new JLabel("Address:");
+        //JLabel age_label = new JLabel("Age:");
+
+        JTextField pharmacy_nbr = new JTextField(8);
+        JTextField address = new JTextField(8);
+        //JTextArea special_mention = new JTextArea(3,8);
+
+        //set visibility of used items when signing up
         class set_visibility {
             public void set_visibility_patient(boolean check_visibility) {
                 height.setVisible(check_visibility);
@@ -88,8 +101,6 @@ public class Main {
             public void set_visibility_pharmacy(boolean check_visibility){
 
             }
-
-
         }
 
 
@@ -98,9 +109,7 @@ public class Main {
         profession_CB.addItem("Patient");
         profession_CB.addItem("Pharmacist");
 
-
-        user.setText("pharmacy");
-
+        //Combo Box User Changes
         profession_CB.addActionListener(e -> {
             if(profession_CB.getSelectedItem() == "Doctor"){
 
@@ -117,12 +126,16 @@ public class Main {
 
 
             }else if(profession_CB.getSelectedItem() == "Pharmacist"){
-
+                set_visibility set_V = new set_visibility();
+                set_V.set_visibility_patient(false);
+                set_V.set_visibility_doctor(false);
+                set_V.set_visibility_pharmacy(true);
             }
         });
 
+        //Sign Up button
         sign_up.addActionListener(e -> {
-            if (!is_in_sign_up[0]) {
+            if (is_in_sign_up[0]) {
 
                 if (name.getText().equals("") || user.getText().equals("") || pass.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Some Fields are empty!!");
@@ -133,8 +146,11 @@ public class Main {
 
                 } else if (profession_CB.getSelectedItem() == "Patient" && (!height.getText().matches("-?\\d+(\\.\\d+)?") || !weight.getText().matches("-?\\d+(\\.\\d+)?") || !sec_number.getText().matches("-?\\d+(\\.\\d+)?") || !age.getText().matches("-?\\d+(\\.\\d+)?"))) {
                     JOptionPane.showMessageDialog(null, "WRONG INPUT!!!");
-                } else {
-                    is_in_sign_up[0] = true;
+                }
+                else if(profession_CB.getSelectedItem() == "Pharmacist"){
+
+                }else {
+                    is_in_sign_up[0] = false;
 
                     if(profession_CB.getSelectedItem() == "Patient"){
                         listPatient.add(new Patient(name.getText(), user.getText(),String.valueOf(pass.getPassword()),parseInt(sec_number.getText()),parseInt(age.getText()), parseInt(weight.getText()), parseInt(height.getText()),special_mention.getText()));
@@ -165,7 +181,7 @@ public class Main {
                 }
             }
             else{
-                is_in_sign_up[0] = false;
+                is_in_sign_up[0] = true;
                 name_label.setVisible(true);
                 profession_label.setVisible(true);
                 profession_CB.setVisible(true);
@@ -177,6 +193,7 @@ public class Main {
             }
         });
 
+        //Login Button
         login_btn.addActionListener(e -> {
             String input = user.getText();
             if(profession_CB.getSelectedItem() == "Patient"){
@@ -207,7 +224,7 @@ public class Main {
         panel1.add(new JLabel("Password:"));
         panel1.add(pass);
 
-
+        //Dr panel
         panel1.add(drRPPS_label);
         panel1.add(drRPPS);
 
@@ -216,6 +233,7 @@ public class Main {
         set_V.set_visibility_doctor(false);
         set_V.set_visibility_pharmacy(false);
 
+        //Patient Panel
         panel1.add(height_label);
         panel1.add(height);
         panel1.add(weight_label);
@@ -227,7 +245,14 @@ public class Main {
         panel1.add(age_label);
         panel1.add(age);
 
+        //Pharmacist Panel
+        panel1.add(pharmacy_nbr_label);
+        panel1.add(pharmacy_nbr);
+        panel1.add(address_label);
+        panel1.add(address);
 
+
+        //login Panel
         panel1.add(login_btn);
         panel1.add(sign_up);
 
