@@ -5,8 +5,10 @@ import org.example.Frames.PharmaFrame;
 import org.example.Users.Doctor;
 import org.example.Users.Patient;
 import org.example.Users.Pharmacy;
+import org.example.Users.User;
 
 import javax.swing.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
@@ -16,6 +18,7 @@ public class Main {
     public static ArrayList<Pharmacy> listPharmacy = new ArrayList<>();
     public static ArrayList<Patient> listPatient = new ArrayList<>();
     public static ArrayList<Prescription> listPrescription = new ArrayList<>();
+    public static ArrayList<User> listUsers = new ArrayList<>();
 
     public static void main(String[] args) {
         start();
@@ -99,6 +102,17 @@ public class Main {
             }
         }
 
+        class check_users{
+            public boolean isPresent(String user_val){
+                for(var i : listUsers){
+                    if(i.getUserName().equals(user_val)){
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
 
         JComboBox<String> profession_CB = new JComboBox<>();
         profession_CB.addItem("Doctor");
@@ -145,32 +159,35 @@ public class Main {
                 else if(profession_CB.getSelectedItem() == "Pharmacist" && (!pharmacy_nbr.getText().matches("-?\\d+(\\.\\d+)?") || address.getText().equals(""))){
                     JOptionPane.showMessageDialog(null, "Wrong Input!!");
                 }else {
-                    is_in_sign_up[0] = false;
+                    check_users check_user = new check_users();
+                    if(check_user.isPresent(user.getText())) {
+                        JOptionPane.showMessageDialog(null, "User Already Present!!");
+                    }
+                    else{
+                        if (profession_CB.getSelectedItem() == "Patient") {
+                            listUsers.add(new Patient(name.getText(), user.getText(), String.valueOf(pass.getPassword()), parseInt(sec_number.getText()), parseInt(age.getText()), parseInt(weight.getText()), parseInt(height.getText()), special_mention.getText()));
+                        } else if (profession_CB.getSelectedItem() == "Doctor") {
+                            listUsers.add(new Doctor(name.getText(), user.getText(), String.valueOf(pass.getPassword()), parseInt(drRPPS.getText())));
+                        } else if (profession_CB.getSelectedItem() == "Pharmacist") {
+                            listUsers.add(new Pharmacy(name.getText(), user.getText(), String.valueOf(pass.getPassword()), parseInt(pharmacy_nbr.getText()), address.getText()));
+                        }
 
-                    if(profession_CB.getSelectedItem() == "Patient"){
-                        listPatient.add(new Patient(name.getText(), user.getText(),String.valueOf(pass.getPassword()),parseInt(sec_number.getText()),parseInt(age.getText()), parseInt(weight.getText()), parseInt(height.getText()),special_mention.getText()));
-                    }else if(profession_CB.getSelectedItem() == "Doctor"){
-                        listDoctor.add(new Doctor(name.getText(), user.getText(), String.valueOf(pass.getPassword()), parseInt(drRPPS.getText())));
-
-
-                    }else if(profession_CB.getSelectedItem() == "Pharmacist"){
-                        listPharmacy.add(new Pharmacy(name.getText(), user.getText(),String.valueOf(pass.getPassword()),parseInt(pharmacy_nbr.getText()),address.getText()));
+                        JOptionPane.showMessageDialog(null, "You are now ready to Login");
+                        is_in_sign_up[0] = false;
+                        name_label.setVisible(false);
+                        profession_label.setVisible(false);
+                        name.setVisible(false);
+                        login_btn.setVisible(true);
+                        profession_CB.setVisible(false);
+                        set_visibility set_V = new set_visibility();
+                        set_V.set_visibility_pharmacy(false);
+                        set_V.set_visibility_doctor(false);
+                        set_V.set_visibility_patient(false);
+                        name.setText("");
+                        user.setText("");
+                        pass.setText("");
                     }
 
-
-                    JOptionPane.showMessageDialog(null, "You are now ready to Login");
-                    name_label.setVisible(false);
-                    profession_label.setVisible(false);
-                    name.setVisible(false);
-                    login_btn.setVisible(true);
-                    profession_CB.setVisible(false);
-                    set_visibility set_V = new set_visibility();
-                    set_V.set_visibility_pharmacy(false);
-                    set_V.set_visibility_doctor(false);
-                    set_V.set_visibility_patient(false);
-                    name.setText("");
-                    user.setText("");
-                    pass.setText("");
                 }
             }
             else{
@@ -189,8 +206,8 @@ public class Main {
         //Login Button
         login_btn.addActionListener(e -> {
             String input = user.getText();
+            String password = pass.getText();
             if(profession_CB.getSelectedItem() == "Patient"){
-                //listPatient.add(new Patient());
                 frame.dispose();
                 new PatientFrame();
             } else if (profession_CB.getSelectedItem() == "Doctor") {
