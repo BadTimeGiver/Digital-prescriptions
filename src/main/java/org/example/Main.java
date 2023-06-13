@@ -18,13 +18,8 @@ public class Main {
     public static ArrayList<Prescription> listPrescription = new ArrayList<>();
 
     public static void main(String[] args) {
-
         start();
     }
-
-
-
-
 
     public static void start(){
 
@@ -147,21 +142,19 @@ public class Main {
                 } else if (profession_CB.getSelectedItem() == "Patient" && (!height.getText().matches("-?\\d+(\\.\\d+)?") || !weight.getText().matches("-?\\d+(\\.\\d+)?") || !sec_number.getText().matches("-?\\d+(\\.\\d+)?") || !age.getText().matches("-?\\d+(\\.\\d+)?"))) {
                     JOptionPane.showMessageDialog(null, "Wrong Input!!!");
                 }
-                else if(profession_CB.getSelectedItem() == "Pharmacist" && (!pharmacy_nbr.getText().matches("-?\\d+(\\.\\d+)?") || address.getText() == "")){
+                else if(profession_CB.getSelectedItem() == "Pharmacist" && (!pharmacy_nbr.getText().matches("-?\\d+(\\.\\d+)?") || address.getText().equals(""))){
                     JOptionPane.showMessageDialog(null, "Wrong Input!!");
                 }else {
                     is_in_sign_up[0] = false;
 
                     if(profession_CB.getSelectedItem() == "Patient"){
                         listPatient.add(new Patient(name.getText(), user.getText(),String.valueOf(pass.getPassword()),parseInt(sec_number.getText()),parseInt(age.getText()), parseInt(weight.getText()), parseInt(height.getText()),special_mention.getText()));
-                        JOptionPane.showMessageDialog(null, listPatient.get(0).getName() + listPatient.get(0).getUserName()+ listPatient.get(0).getPassword()+ listPatient.get(0).getNumeroSec()+ listPatient.get(0).getAge()+ listPatient.get(0).getWeight() + listPatient.get(0).getHeight()+ listPatient.get(0).getSpecialMentions());
-
                     }else if(profession_CB.getSelectedItem() == "Doctor"){
                         listDoctor.add(new Doctor(name.getText(), user.getText(), String.valueOf(pass.getPassword()), parseInt(drRPPS.getText())));
 
 
                     }else if(profession_CB.getSelectedItem() == "Pharmacist"){
-                        listPharmacy.add(new Pharmacy(name.getText(), user.getText(),String.valueOf(pass.getPassword()),1,""));
+                        listPharmacy.add(new Pharmacy(name.getText(), user.getText(),String.valueOf(pass.getPassword()),parseInt(pharmacy_nbr.getText()),address.getText()));
                     }
 
 
