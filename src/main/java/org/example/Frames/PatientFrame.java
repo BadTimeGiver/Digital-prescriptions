@@ -1,13 +1,16 @@
 package org.example.Frames;
 
 import org.example.Main;
+import org.example.Prescription;
 import org.example.Users.Patient;
+import org.example.Users.Pharmacy;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 import static java.lang.Integer.parseInt;
+import static org.example.Main.listUsers;
 
 public class PatientFrame {
 
@@ -18,7 +21,11 @@ public class PatientFrame {
         frame.setLocationRelativeTo(null);
 
         //Panel
-        JPanel panel1 = new JPanel();
+        JPanel edit_panel = new JPanel();
+        JPanel history_presc_panel = new JPanel();
+        JPanel new_presc_panel = new JPanel();
+        JPanel send_to_pharm_panel = new JPanel();
+        JPanel receive_panel = new JPanel();
 
         //Edit tab
         JLabel name_label = new JLabel("Name:");
@@ -49,50 +56,69 @@ public class PatientFrame {
         JTextField age = new JTextField(8);
         age.setText(Integer.toString(patient.getAge()));
 
-        class set_visibility {
-            public void set_visibility_edit(boolean check_visibility){
-                name_label.setVisible(check_visibility);
-                name.setVisible(check_visibility);
-                username_label.setVisible(check_visibility);
-                username.setVisible(check_visibility);
-                pass.setVisible(check_visibility);
-                password_label.setVisible(check_visibility);
-                special_mentions.setVisible(check_visibility);
-                special_mentions_label.setVisible(check_visibility);
-                sec_number_label.setVisible(check_visibility);
-                sec_number.setVisible(check_visibility);
-                weight_label.setVisible(check_visibility);
-                weight.setVisible(check_visibility);
-                height_label.setVisible(check_visibility);
-                height.setVisible(check_visibility);
-                age_label.setVisible(check_visibility);
-                age.setVisible(check_visibility);
-                edit_btn.setVisible(check_visibility);
 
-            }
+        //adding elements to edit profile panel
+        edit_panel.add(name_label);
+        edit_panel.add(name);
+        edit_panel.add(username_label);
+        edit_panel.add(username);
+        edit_panel.add(password_label);
+        edit_panel.add(pass);
+        edit_panel.add(sec_number_label);
+        edit_panel.add(sec_number);
+        edit_panel.add(age_label);
+        edit_panel.add(age);
+        edit_panel.add(weight_label);
+        edit_panel.add(weight);
+        edit_panel.add(height_label);
+        edit_panel.add(height);
+        edit_panel.add(special_mentions_label);
+        edit_panel.add(special_mentions);
+        edit_panel.add(edit_btn);
+
+
+        //new prescriptions tab
+        JLabel prescriptions_not_sent_label = new JLabel("Prescriptions not sent:");
+        JTextArea prescriptions_not_sent = new JTextArea(4, 8);
+
+        //adding elements to new prescriptions panel
+        new_presc_panel.add(prescriptions_not_sent_label);
+        new_presc_panel.add(prescriptions_not_sent);
+
+
+        //history prescriptions tab
+        JLabel prescriptions_sent_label = new JLabel("Prescriptions sent:");
+        JTextArea prescriptions_sent = new JTextArea(4, 8);
+        //adding elements to history prescriptions panel
+        history_presc_panel.add(prescriptions_sent_label);
+        history_presc_panel.add(prescriptions_sent);
+
+        //Received items from pharmacy tab
+        JLabel combo_box_label = new JLabel("Choose a prescription:");
+        JLabel pharmacy_label = new JLabel("Pharmacy User:");
+        JTextField pharmacy = new JTextField(8);
+        JComboBox<Prescription> combo_box_prescr = new JComboBox<>();
+        for (var i : patient.getPrescriptions_NOT_sent()) {
+            combo_box_prescr.addItem(i);
         }
+        JButton send_btn = new JButton("Send to Pharmacy");
 
-        set_visibility visibility = new set_visibility();
+        //adding elements to the receiving panel
+        send_to_pharm_panel.add(combo_box_label);
+        send_to_pharm_panel.add(combo_box_prescr);
+        send_to_pharm_panel.add(pharmacy_label);
+        send_to_pharm_panel.add(pharmacy);
+        send_to_pharm_panel.add(send_btn);
 
-        //adding elements to panel
-        visibility.set_visibility_edit(false);
-        panel1.add(name_label);
-        panel1.add(name);
-        panel1.add(username_label);
-        panel1.add(username);
-        panel1.add(password_label);
-        panel1.add(pass);
-        panel1.add(sec_number_label);
-        panel1.add(sec_number);
-        panel1.add(age_label);
-        panel1.add(age);
-        panel1.add(weight_label);
-        panel1.add(weight);
-        panel1.add(height_label);
-        panel1.add(height);
-        panel1.add(special_mentions_label);
-        panel1.add(special_mentions);
-        panel1.add(edit_btn);
+
+        //send to pharmacy a prescriptions tab
+        JLabel prescriptions_received_label = new JLabel("Prescriptions:");
+        JTextArea prescriptions_received = new JTextArea(4,8);
+
+        //adding elements to send a prescription to the pharmacy panel
+        receive_panel.add(prescriptions_received_label);
+        receive_panel.add(prescriptions_received);
+
 
         //Menu Bar
         JMenuBar menuBar = new JMenuBar();
@@ -104,28 +130,73 @@ public class PatientFrame {
 
         JMenuItem newPrescrItem = new JMenuItem("New", KeyEvent.VK_N);
         newPrescrItem.addActionListener(e -> {
-            visibility.set_visibility_edit(false);
-            JOptionPane.showMessageDialog(null, "New Prescription");
+            String result = "";
+            for (var i : patient.getPrescriptions_NOT_sent()) {
+                result += i + "\n------------------\n";
+            }
+            prescriptions_not_sent.setText(result);
+            frame.remove(edit_panel);
+            frame.add(new_presc_panel);
+            frame.remove(history_presc_panel);
+            frame.remove(send_to_pharm_panel);
+            frame.remove(receive_panel);
+            SwingUtilities.updateComponentTreeUI(frame);
         });
         prescrMenu.add(newPrescrItem);
 
         JMenuItem historyItem = new JMenuItem("History", KeyEvent.VK_H);
         historyItem.addActionListener(e -> {
-            visibility.set_visibility_edit(false);
-            JOptionPane.showMessageDialog(null, "Prescription History");
+            String result = "";
+            for (var i : patient.getPrescriptions_sent()) {
+                result += i + "\n------------------\n";
+            }
+            prescriptions_sent.setText(result);
+            frame.remove(edit_panel);
+            frame.add(history_presc_panel);
+            frame.remove(new_presc_panel);
+            frame.remove(send_to_pharm_panel);
+            frame.remove(receive_panel);
+            SwingUtilities.updateComponentTreeUI(frame);
         });
         prescrMenu.add(historyItem);
-
         JMenu sendMenu = new JMenu("Send");
         sendMenu.setMnemonic(KeyEvent.VK_S);
         menuBar.add(sendMenu);
 
         JMenuItem viewClientsItem = new JMenuItem("To Pharmacy");
         viewClientsItem.addActionListener(e -> {
-            visibility.set_visibility_edit(false);
-            JOptionPane.showMessageDialog(null, "Send to Pharmacy");
+            combo_box_prescr.removeAllItems();
+            for (var i : patient.getPrescriptions_NOT_sent()) {
+                combo_box_prescr.addItem(i);
+            }
+            frame.remove(edit_panel);
+            frame.remove(new_presc_panel);
+            frame.remove(history_presc_panel);
+            frame.add(send_to_pharm_panel);
+            frame.remove(receive_panel);
+            SwingUtilities.updateComponentTreeUI(frame);
         });
         sendMenu.add(viewClientsItem);
+
+        JMenu receiveMenu = new JMenu("Receive");
+        receiveMenu.setMnemonic(KeyEvent.VK_R);
+        menuBar.add(receiveMenu);
+
+        JMenuItem viewClientsItemReceived = new JMenuItem("From Pharmacy");
+        viewClientsItemReceived.addActionListener(e -> {
+            String result = "";
+            for (var i : patient.getReturned_prescriptions()) {
+                result += ((i.isValidate() ? "CONFIRMED\n":"NOT CONFIRMED\n") + i + "\n------------------\n");
+            }
+            prescriptions_received.setText(result);
+            frame.remove(edit_panel);
+            frame.remove(history_presc_panel);
+            frame.remove(new_presc_panel);
+            frame.remove(send_to_pharm_panel);
+            frame.add(receive_panel);
+            SwingUtilities.updateComponentTreeUI(frame);
+        });
+        receiveMenu.add(viewClientsItemReceived);
 
         JMenu account = new JMenu("Account");
         account.setMnemonic(KeyEvent.VK_A);
@@ -133,7 +204,12 @@ public class PatientFrame {
 
         JMenuItem edit = new JMenuItem("Edit");
         edit.addActionListener(e -> {
-            visibility.set_visibility_edit(true);
+            frame.add(edit_panel);
+            frame.remove(new_presc_panel);
+            frame.remove(history_presc_panel);
+            frame.remove(send_to_pharm_panel);
+            frame.remove(receive_panel);
+            SwingUtilities.updateComponentTreeUI(frame);
         });
         account.add(edit);
 
@@ -145,12 +221,22 @@ public class PatientFrame {
         account.add(log_out);
 
 
+        //check if a user is present
+        class check_users {
+            public Pharmacy isPresent(String user_val) {
+                for (var i : listUsers) {
+                    if (i.getUserName().equals(user_val) && i instanceof Pharmacy) {
+                        return (Pharmacy) i;
+                    }
+                }
+                return null;
+            }
+        }
 
         edit_btn.addActionListener(e -> {
-            if((name.getText().equals("") || pass.getText().equals("")) || !sec_number.getText().matches("-?\\d+(\\.\\d+)?") || !age.getText().matches("-?\\d+(\\.\\d+)?") || !weight.getText().matches("-?\\d+(\\.\\d+)?") || !height.getText().matches("-?\\d+(\\.\\d+)?")){
+            if ((name.getText().equals("") || pass.getText().equals("")) || !sec_number.getText().matches("-?\\d+(\\.\\d+)?") || !age.getText().matches("-?\\d+(\\.\\d+)?") || !weight.getText().matches("-?\\d+(\\.\\d+)?") || !height.getText().matches("-?\\d+(\\.\\d+)?")) {
                 JOptionPane.showMessageDialog(null, "Wrong Inputs!");
-            }
-            else {
+            } else {
                 patient.setName(name.getText());
                 patient.setNumeroSec(parseInt(sec_number.getText()));
                 patient.setPassword(pass.getText());
@@ -162,17 +248,29 @@ public class PatientFrame {
             }
         });
 
+        send_btn.addActionListener(e -> {
+            if (pharmacy.getText().isEmpty() || patient.getPrescriptions_NOT_sent().size() == 0) {
+                JOptionPane.showMessageDialog(null, "Wrong Input");
+            } else {
+                check_users check_user = new check_users();
+                Pharmacy temp_pharmacy;
+                if ((temp_pharmacy = check_user.isPresent(pharmacy.getText())) != null) {
+                    patient.sendPrescription((Prescription) combo_box_prescr.getSelectedItem(), temp_pharmacy);
+                    JOptionPane.showMessageDialog(null, "Prescription sent successfully!");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Couldn't find User!");
+
+                }
+            }
+        });
 
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 300);
 
-
-
-
-
+        frame.add(send_to_pharm_panel);
         frame.setJMenuBar(menuBar);
-        frame.add(panel1);
 
         frame.setVisible(true);
     }

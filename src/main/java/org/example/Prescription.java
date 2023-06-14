@@ -1,14 +1,42 @@
 package org.example;
 
-import java.time.LocalDateTime;
+import org.example.Users.Patient;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Prescription {
     private ArrayList<String> listMedicine;
-    private LocalDateTime date;
+    private LocalDate date;
     private String Instructions;
     private int doctorRPPS;
+    private Patient patient;
+    private boolean isValidate = false;
 
+    public boolean isValidate() {
+        return isValidate;
+    }
+
+    public void setValidate(boolean validate) {
+        isValidate = validate;
+    }
+
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+
+    public Prescription(ArrayList<String> listMedicine, LocalDate date, String instructions, int doctorRPPS) {
+        this.listMedicine = listMedicine;
+        this.date = date;
+        this.Instructions = instructions;
+        this.doctorRPPS = doctorRPPS;
+    }
 
 
     public ArrayList<String> getListMedicine() {
@@ -19,11 +47,11 @@ public class Prescription {
         this.listMedicine = listMedicine;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -39,9 +67,13 @@ public class Prescription {
         return doctorRPPS;
     }
 
-    public void setDoctorRPPS(int doctorRPPS) {
-        this.doctorRPPS = doctorRPPS;
+
+
+    @Override
+    public String toString() {
+        return "listMedicine=" + listMedicine +
+                "\ndate=" + date +
+                "\nInstructions='" + Instructions + '\'' +
+                "\ndoctorRPPS=" + doctorRPPS;
     }
-
-
 }

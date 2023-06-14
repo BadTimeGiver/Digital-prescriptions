@@ -7,15 +7,12 @@ import org.example.Users.Patient;
 import org.example.Users.Pharmacy;
 import org.example.Users.User;
 
-import javax.print.Doc;
 import javax.swing.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
 public class Main {
-    public static ArrayList<Prescription> listPrescription = new ArrayList<>();
     public static ArrayList<User> listUsers = new ArrayList<>();
 
 
@@ -151,7 +148,7 @@ public class Main {
         sign_up.addActionListener(e -> {
             if (is_in_sign_up[0]) {
 
-                if (name.getText().equals("") || user.getText().equals("") || pass.getText().equals("")) {
+                if (name.getText().isEmpty() || user.getText().isEmpty() || pass.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Some Fields are empty!!");
 
                 }
@@ -161,7 +158,7 @@ public class Main {
                 } else if (profession_CB.getSelectedItem() == "Patient" && (!height.getText().matches("-?\\d+(\\.\\d+)?") || !weight.getText().matches("-?\\d+(\\.\\d+)?") || !sec_number.getText().matches("-?\\d+(\\.\\d+)?") || !age.getText().matches("-?\\d+(\\.\\d+)?"))) {
                     JOptionPane.showMessageDialog(null, "Wrong Input!!!");
                 }
-                else if(profession_CB.getSelectedItem() == "Pharmacist" && (!pharmacy_nbr.getText().matches("-?\\d+(\\.\\d+)?") || address.getText().equals(""))){
+                else if(profession_CB.getSelectedItem() == "Pharmacist" && (!pharmacy_nbr.getText().matches("-?\\d+(\\.\\d+)?") || address.getText().isEmpty())){
                     JOptionPane.showMessageDialog(null, "Wrong Input!!");
                 }else {
                     check_users check_user = new check_users();
