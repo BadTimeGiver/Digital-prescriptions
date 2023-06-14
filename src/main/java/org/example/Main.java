@@ -7,6 +7,7 @@ import org.example.Users.Patient;
 import org.example.Users.Pharmacy;
 import org.example.Users.User;
 
+import javax.print.Doc;
 import javax.swing.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -14,11 +15,9 @@ import java.util.ArrayList;
 import static java.lang.Integer.parseInt;
 
 public class Main {
-    public static ArrayList<Doctor> listDoctor = new ArrayList<>();
-    public static ArrayList<Pharmacy> listPharmacy = new ArrayList<>();
-    public static ArrayList<Patient> listPatient = new ArrayList<>();
     public static ArrayList<Prescription> listPrescription = new ArrayList<>();
     public static ArrayList<User> listUsers = new ArrayList<>();
+
 
     public static void main(String[] args) {
         start();
@@ -26,7 +25,9 @@ public class Main {
 
     public static void start(){
 
-
+        listUsers.add(new Doctor("1", "1", "1", 1));
+        listUsers.add(new Pharmacy("2", "2", "2", 2,"hello"));
+        listUsers.add(new Patient("3", "3", "3", 2,1,1,1,"hello"));
 
         JFrame frame = new JFrame("Ordonnencement Numerique");
         frame.setSize(400, 300);
@@ -43,12 +44,17 @@ public class Main {
         //User Inputs
         JButton login_btn = new JButton("Login");
         JButton sign_up = new JButton("Sign Up");
+        JButton back_btn = new JButton("Back");
         final Boolean[] is_in_sign_up = {false};
         JTextField user = new JTextField(8);
         JTextField name = new JTextField(8);
         JPasswordField pass = new JPasswordField(8);
         JLabel name_label = new JLabel("Name:");
         JLabel profession_label = new JLabel("Profession:");
+
+
+        user.setText("2");
+        pass.setText("2");
 
         //Dr Inputs
         JLabel drRPPS_label = new JLabel("RPPS:");
@@ -103,16 +109,15 @@ public class Main {
         }
 
         class check_users{
-            public boolean isPresent(String user_val){
+            public User isPresent(String user_val){
                 for(var i : listUsers){
                     if(i.getUserName().equals(user_val)){
-                        return true;
+                        return i;
                     }
                 }
-                return false;
+                return null;
             }
         }
-
 
         JComboBox<String> profession_CB = new JComboBox<>();
         profession_CB.addItem("Doctor");
@@ -160,7 +165,7 @@ public class Main {
                     JOptionPane.showMessageDialog(null, "Wrong Input!!");
                 }else {
                     check_users check_user = new check_users();
-                    if(check_user.isPresent(user.getText())) {
+                    if(check_user.isPresent(user.getText()) != null) {
                         JOptionPane.showMessageDialog(null, "User Already Present!!");
                     }
                     else{
@@ -179,6 +184,7 @@ public class Main {
                         name.setVisible(false);
                         login_btn.setVisible(true);
                         profession_CB.setVisible(false);
+                        back_btn.setVisible(false);
                         set_visibility set_V = new set_visibility();
                         set_V.set_visibility_pharmacy(false);
                         set_V.set_visibility_doctor(false);
@@ -196,6 +202,7 @@ public class Main {
                 profession_label.setVisible(true);
                 profession_CB.setVisible(true);
                 name.setVisible(true);
+                back_btn.setVisible(true);
                 login_btn.setVisible(false);
                 drRPPS.setVisible(true);
                 drRPPS_label.setVisible(true);
@@ -207,17 +214,44 @@ public class Main {
         login_btn.addActionListener(e -> {
             String input = user.getText();
             String password = pass.getText();
-            if(profession_CB.getSelectedItem() == "Patient"){
-                frame.dispose();
-                new PatientFrame();
-            } else if (profession_CB.getSelectedItem() == "Doctor") {
-                frame.dispose();
-                new DrFrame();
-            }else if(profession_CB.getSelectedItem() == "Pharmacist"){
-                frame.dispose();
-                new PharmaFrame();
+            User temp_user;
+            check_users check_user = new check_users();
+            if((temp_user = check_user.isPresent(input)) != null) {
+
+                if (temp_user.getPassword().equals(password) && temp_user instanceof Patient) {
+                    frame.dispose();
+                    new PatientFrame((Patient) temp_user);
+                } else if (temp_user.getPassword().equals(password) && temp_user instanceof Doctor) {
+                    frame.dispose();
+                    new DrFrame((Doctor) temp_user);
+                } else if (temp_user.getPassword().equals(password) && temp_user instanceof Pharmacy) {
+                    frame.dispose();
+                    new PharmaFrame((Pharmacy) temp_user);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Incorrect Password!");
+                }
+
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "User Not Found!");
             }
         });
+
+        back_btn.addActionListener(e -> {
+            is_in_sign_up[0] = false;
+            name_label.setVisible(false);
+            profession_label.setVisible(false);
+            name.setVisible(false);
+            login_btn.setVisible(true);
+            profession_CB.setVisible(false);
+            back_btn.setVisible(false);
+            set_visibility set_V = new set_visibility();
+            set_V.set_visibility_pharmacy(false);
+            set_V.set_visibility_doctor(false);
+            set_V.set_visibility_patient(false);
+        });
+
 
         name_label.setVisible(false);
         name.setVisible(false);
@@ -265,6 +299,8 @@ public class Main {
         //login Panel
         panel1.add(login_btn);
         panel1.add(sign_up);
+        back_btn.setVisible(false);
+        panel1.add(back_btn);
 
 
 
