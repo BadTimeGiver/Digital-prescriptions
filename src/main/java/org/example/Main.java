@@ -22,9 +22,9 @@ public class Main {
 
     public static void start(){
 
-        listUsers.add(new Doctor("1", "1", "1", 1));
-        listUsers.add(new Pharmacy("2", "2", "2", 2,"hello"));
-        listUsers.add(new Patient("3", "3", "3", 2,1,1,1,"hello"));
+        //listUsers.add(new Doctor("1", "1", "1", 1));
+        //listUsers.add(new Pharmacy("2", "2", "2", 2,"hello"));
+        //listUsers.add(new Patient("3", "3", "3", 2,1,1,1,"hello"));
 
         JFrame frame = new JFrame("Ordonnencement Numerique");
         frame.setSize(400, 300);
@@ -50,8 +50,6 @@ public class Main {
         JLabel profession_label = new JLabel("Profession:");
 
 
-        user.setText("2");
-        pass.setText("2");
 
         //Dr Inputs
         JLabel drRPPS_label = new JLabel("RPPS:");
