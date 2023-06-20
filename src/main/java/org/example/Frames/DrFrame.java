@@ -19,19 +19,17 @@ public class DrFrame {
 
     public DrFrame(Doctor doctor) {
 
-
         JFrame frame = new JFrame("Doctor");
         frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);
 
-        //Panel
+        // Panel
         JPanel edit_panel = new JPanel();
         JPanel new_pres_panel = new JPanel();
         JPanel history_pres_panel = new JPanel();
         JPanel client_panel = new JPanel();
 
-
-        //Edit tab
+        // Edit tab
         JLabel name_label = new JLabel("Name:");
         JLabel username_label = new JLabel("UserName:");
         JLabel password_label = new JLabel("Password:");
@@ -46,9 +44,9 @@ public class DrFrame {
         username.setText(doctor.getUserName());
         username.setEnabled(false);
         JTextField rpps = new JTextField(8);
-        rpps.setText(Integer.toString(doctor.getRppsNumber()));
+        rpps.setText(Integer.toString(doctor.getRpps()));
 
-        //adding elements to edit panel
+        // adding elements to edit panel
         edit_panel.add(name_label);
         edit_panel.add(name);
         edit_panel.add(username_label);
@@ -59,7 +57,7 @@ public class DrFrame {
         edit_panel.add(rpps);
         edit_panel.add(edit_btn);
 
-        //New Prescription tab
+        // New Prescription tab
         JLabel date_label = new JLabel("Date (YYYY-MM-DD):");
         JLabel instruction_label = new JLabel("Instruction:");
         JLabel doctor_rpps_label = new JLabel("Doctor RPPS:");
@@ -71,13 +69,12 @@ public class DrFrame {
         date.setText("1900-01-01");
         JTextField doctorRPPS = new JTextField(8);
         JTextField patientUser = new JTextField(8);
-        doctorRPPS.setText(Integer.toString(doctor.getRppsNumber()));
+        doctorRPPS.setText(Integer.toString(doctor.getRpps()));
         doctorRPPS.setEnabled(false);
         JTextArea instructions = new JTextArea(2, 8);
         JTextArea medicines = new JTextArea(2, 8);
 
-
-        //adding elements to new prescription panel
+        // adding elements to new prescription panel
         new_pres_panel.add(date_label);
         new_pres_panel.add(date);
         new_pres_panel.add(instruction_label);
@@ -90,25 +87,23 @@ public class DrFrame {
         new_pres_panel.add(medicines);
         new_pres_panel.add(create_prescription_btn);
 
-        //History of Prescriptions tab
+        // History of Prescriptions tab
         JLabel history_Prescriptions_label = new JLabel("Prescriptions");
         JTextArea history_prescriptions = new JTextArea(4, 8);
 
-        //adding elements to history prescriptions panel
+        // adding elements to history prescriptions panel
         history_pres_panel.add(history_Prescriptions_label);
         history_pres_panel.add(history_prescriptions);
 
-
-        //Clients tab
+        // Clients tab
         JLabel clients_label = new JLabel("Clients");
         JTextArea clients = new JTextArea(4, 8);
 
-        //adding elements to Client panel
+        // adding elements to Client panel
         client_panel.add(clients_label);
         client_panel.add(clients);
 
-
-        //Menu Bar
+        // Menu Bar
         JMenuBar menuBar = new JMenuBar();
         UIManager.put("MenuBar.background", Color.ORANGE);
 
@@ -182,7 +177,7 @@ public class DrFrame {
         });
         account.add(log_out);
 
-        //check if a user is present
+        // check if a user is present
         class check_users {
             public Patient isPresent(String user_val) {
                 for (var i : listUsers) {
@@ -194,13 +189,13 @@ public class DrFrame {
             }
         }
 
-        //edit button
+        // edit button
         edit_btn.addActionListener(e -> {
             if ((name.getText().isEmpty() || pass.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Wrong Inputs!");
             } else if (rpps.getText().matches("-?\\d+(\\.\\d+)?")) {
                 doctor.setName(name.getText());
-                doctor.setRppsNumber(parseInt(rpps.getText()));
+                doctor.setRpps(parseInt(rpps.getText()));
                 doctor.setPassword(pass.getText());
                 JOptionPane.showMessageDialog(null, "Update Successful");
             } else {
@@ -208,9 +203,10 @@ public class DrFrame {
             }
         });
 
-        //new prescription
+        // new prescription
         create_prescription_btn.addActionListener(e -> {
-            if (medicines.getText().isEmpty() || patientUser.getText().isEmpty() || instructions.getText().isEmpty() || !date.getText().matches("\\d{4}-\\d{2}-\\d{2}")) {
+            if (medicines.getText().isEmpty() || patientUser.getText().isEmpty() || instructions.getText().isEmpty()
+                    || !date.getText().matches("\\d{4}-\\d{2}-\\d{2}")) {
                 JOptionPane.showMessageDialog(null, "Wrong Input");
             } else if (parseInt(date.getText().substring(0, 4)) >= 1900 &&
                     parseInt(date.getText().substring(0, 4)) < 2024 &&
@@ -224,7 +220,8 @@ public class DrFrame {
                     ArrayList<String> temp_arr = new ArrayList<>();
                     Collections.addAll(temp_arr, medicines.getText().split("\n"));
 
-                    doctor.addPrescription(temp_patient, new Prescription(temp_arr,LocalDate.parse(date.getText()), instructions.getText(), doctor.getRppsNumber()));
+                    doctor.addPrescription(temp_patient, new Prescription(temp_arr, LocalDate.parse(date.getText()),
+                            instructions.getText(), doctor.getRpps()));
                     JOptionPane.showMessageDialog(null, "New Prescription added successfully!");
 
                 } else {
@@ -236,10 +233,8 @@ public class DrFrame {
             }
         });
 
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 300);
-
 
         frame.setJMenuBar(menuBar);
         frame.add(new_pres_panel);
