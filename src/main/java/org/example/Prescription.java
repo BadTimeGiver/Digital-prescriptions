@@ -7,11 +7,50 @@ import java.util.ArrayList;
 
 public class Prescription {
     private ArrayList<String> listMedicine;
+    private String medicines;
     private LocalDate date;
-    private String Instructions;
-    private int doctorRPPS;
     private Patient patient;
+    private String Instructions;
+    private int rpps;
+    private int num_pharmacy;
+    private int nss;
     private boolean isValidate = false;
+
+    public String getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(String medicines) {
+        this.medicines = medicines;
+    }
+
+    public String getInstructions() {
+        return Instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        Instructions = instructions;
+    }
+
+    public void setRpps(int rpps) {
+        this.rpps = rpps;
+    }
+
+    public int getNum_pharmacy() {
+        return num_pharmacy;
+    }
+
+    public void setNum_pharmacy(int num_pharmacy) {
+        this.num_pharmacy = num_pharmacy;
+    }
+
+    public int getNss() {
+        return nss;
+    }
+
+    public void setNss(int nss) {
+        this.nss = nss;
+    }
 
     public boolean isValidate() {
         return isValidate;
@@ -21,7 +60,6 @@ public class Prescription {
         isValidate = validate;
     }
 
-
     public Patient getPatient() {
         return patient;
     }
@@ -30,14 +68,12 @@ public class Prescription {
         this.patient = patient;
     }
 
-
     public Prescription(ArrayList<String> listMedicine, LocalDate date, String instructions, int doctorRPPS) {
         this.listMedicine = listMedicine;
         this.date = date;
         this.Instructions = instructions;
-        this.doctorRPPS = doctorRPPS;
+        this.rpps = doctorRPPS;
     }
-
 
     public ArrayList<String> getListMedicine() {
         return listMedicine;
@@ -63,17 +99,15 @@ public class Prescription {
         this.Instructions = additionalInstructions;
     }
 
-    public int getDoctorRPPS() {
-        return doctorRPPS;
+    public int getRpps() {
+        return rpps;
     }
-
-
 
     @Override
     public String toString() {
         return "listMedicine=" + listMedicine +
                 "\ndate=" + date +
                 "\nInstructions='" + Instructions + '\'' +
-                "\ndoctorRPPS=" + doctorRPPS;
+                "\ndoctorRPPS=" + rpps;
     }
 }

@@ -24,9 +24,6 @@ public class Main {
         String password = "root";
         String[] connexionSQL = { jdbcUrl, username, password };
         dataFromMySQL.initData(connexionSQL);
-        for (Pharmacy ph : dataFromMySQL.getListPharmacies()) {
-            System.out.println(ph);
-        }
         start();
     }
 
