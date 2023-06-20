@@ -2,18 +2,17 @@ package org.example.Users;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class Users {
+public class DataFromMySQL {
     private ArrayList<Patient> listPatients = new ArrayList<>();
     private ArrayList<Doctor> listDoctors = new ArrayList<>();
     private ArrayList<Pharmacy> listPharmacists = new ArrayList<>();
 
-    public Users() {
+    public DataFromMySQL() {
     }
 
     public ArrayList<Patient> getListPatients() {
@@ -40,13 +39,10 @@ public class Users {
         listPharmacists.add(p);
     }
 
-    public void initPatients() {
-        String jdbcUrl = "jdbc:mysql://localhost:3306/ordonnancement";
-        String username = "root";
-        String password = "root";
+    public void initPatients(String[] connexionSQL) {
 
         try {
-            Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
             Statement statement = connection.createStatement();
             String sqlQuery = "SELECT * FROM patients";
             ResultSet resultSet = statement.executeQuery(sqlQuery);

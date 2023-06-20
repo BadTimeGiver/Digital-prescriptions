@@ -7,7 +7,7 @@ import org.example.Users.Doctor;
 import org.example.Users.Patient;
 import org.example.Users.Pharmacy;
 import org.example.Users.User;
-import org.example.Users.Users;
+import org.example.Users.DataFromMySQL;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -16,11 +16,15 @@ import static java.lang.Integer.parseInt;
 
 public class Main {
     public static ArrayList<User> listUsers = new ArrayList<>();
-    public static Users users = new Users();
+    public static DataFromMySQL dataFromMySQL = new DataFromMySQL();
 
     public static void main(String[] args) {
-        users.initPatients();
-        for (Patient p : users.getListPatients()) {
+        String jdbcUrl = "jdbc:mysql://localhost:3306/ordonnancement";
+        String username = "root";
+        String password = "root";
+        String[] connexionSQL = { jdbcUrl, username, password };
+        dataFromMySQL.initPatients(connexionSQL);
+        for (Patient p : dataFromMySQL.getListPatients()) {
             System.out.println(p);
         }
         start();
