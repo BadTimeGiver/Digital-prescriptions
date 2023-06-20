@@ -1,20 +1,35 @@
 package org.example;
 
+import org.example.Users.Doctor;
 import org.example.Users.Patient;
+import org.example.Users.Pharmacy;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Prescription {
-    private ArrayList<String> listMedicine;
+    private ArrayList<String> listMedicine; // à enlever
+    private int id;
     private String medicines;
     private LocalDate date;
     private Patient patient;
-    private String Instructions;
-    private int rpps;
-    private int num_pharmacy;
-    private int nss;
+    private Doctor doctor;
+    private Pharmacy pharmacy;
+    private String instructions;
+    private int rpps; // à enlever
     private boolean isValidate = false;
+
+    public Prescription(int id, String medicines, LocalDate date, Patient patient, Doctor doctor, Pharmacy pharmacy,
+            String instructions, boolean isValidate) {
+        this.id = id;
+        this.medicines = medicines;
+        this.date = date;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.pharmacy = pharmacy;
+        this.instructions = instructions;
+        this.isValidate = isValidate;
+    }
 
     public String getMedicines() {
         return medicines;
@@ -25,31 +40,15 @@ public class Prescription {
     }
 
     public String getInstructions() {
-        return Instructions;
+        return instructions;
     }
 
     public void setInstructions(String instructions) {
-        Instructions = instructions;
+        instructions = instructions;
     }
 
     public void setRpps(int rpps) {
         this.rpps = rpps;
-    }
-
-    public int getNum_pharmacy() {
-        return num_pharmacy;
-    }
-
-    public void setNum_pharmacy(int num_pharmacy) {
-        this.num_pharmacy = num_pharmacy;
-    }
-
-    public int getNss() {
-        return nss;
-    }
-
-    public void setNss(int nss) {
-        this.nss = nss;
     }
 
     public boolean isValidate() {
@@ -71,7 +70,7 @@ public class Prescription {
     public Prescription(ArrayList<String> listMedicine, LocalDate date, String instructions, int doctorRPPS) {
         this.listMedicine = listMedicine;
         this.date = date;
-        this.Instructions = instructions;
+        this.instructions = instructions;
         this.rpps = doctorRPPS;
     }
 
@@ -92,11 +91,11 @@ public class Prescription {
     }
 
     public String getAdditionalInstructions() {
-        return Instructions;
+        return instructions;
     }
 
     public void setAdditionalInstructions(String additionalInstructions) {
-        this.Instructions = additionalInstructions;
+        this.instructions = additionalInstructions;
     }
 
     public int getRpps() {
@@ -107,7 +106,7 @@ public class Prescription {
     public String toString() {
         return "listMedicine=" + listMedicine +
                 "\ndate=" + date +
-                "\nInstructions='" + Instructions + '\'' +
+                "\nInstructions='" + instructions + '\'' +
                 "\ndoctorRPPS=" + rpps;
     }
 }
