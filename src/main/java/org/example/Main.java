@@ -17,21 +17,23 @@ import java.time.LocalDate;
 
 public class Main {
     public static ArrayList<User> listUsers = new ArrayList<>();
-    public static DataFromMySQL dataFromMySQL = new DataFromMySQL();
+    public static DataFromMySQL dataFromMySQL;
 
     public static void main(String[] args) {
         String jdbcUrl = "jdbc:mysql://localhost:3306/ordonnancement";
         String username = "root";
         String password = "root";
         String[] connexionSQL = { jdbcUrl, username, password };
-        dataFromMySQL.initData(connexionSQL);
+        dataFromMySQL = new DataFromMySQL(connexionSQL);
+        dataFromMySQL.initData();
         /*
          * dataFromMySQL.addPrescriptionToDB(2, "2", LocalDate.of(2018, 9, 24), 2, 2, 2,
          * "2", false, connexionSQL);
-         * for (Prescription ph : dataFromMySQL.getPrescriptions()) {
-         * System.out.println(ph);
-         * }
          */
+        for (Prescription ph : dataFromMySQL.getPrescriptions()) {
+            System.out.println(ph);
+        }
+
         start();
     }
 
@@ -181,6 +183,9 @@ public class Main {
                                     String.valueOf(pass.getPassword()), parseInt(sec_number.getText()),
                                     parseInt(age.getText()), parseInt(weight.getText()), parseInt(height.getText()),
                                     special_mention.getText()));
+                            // dataFromMySQL.addPatientToDB(parseInt(sec_number.getText()), name.getText(),
+                            // String.valueOf(pass.getPassword()), parseInt(age.getText()),
+                            // parseInt(weight.getText()), parseInt(height.getText()), null, null);
                         } else if (profession_CB.getSelectedItem() == "Doctor") {
                             listUsers.add(new Doctor(name.getText(), user.getText(), String.valueOf(pass.getPassword()),
                                     parseInt(drRPPS.getText())));

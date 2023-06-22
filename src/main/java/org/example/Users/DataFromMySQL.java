@@ -16,8 +16,13 @@ public class DataFromMySQL {
     private ArrayList<Doctor> doctors = new ArrayList<>();
     private ArrayList<Pharmacy> pharmacies = new ArrayList<>();
     private ArrayList<Prescription> prescriptions = new ArrayList<>();
+    private String[] connexionSQL = new String[3];
 
     public DataFromMySQL() {
+    }
+
+    public DataFromMySQL(String[] connexionSQL) {
+        this.connexionSQL = connexionSQL;
     }
 
     public ArrayList<Patient> getPatients() {
@@ -75,18 +80,18 @@ public class DataFromMySQL {
         return null; // Pharmacy not found
     }
 
-    public void initData(String[] connexionSQL) {
+    public void initData() {
         ArrayList<Patient> patients = new ArrayList<>();
         ArrayList<Doctor> doctors = new ArrayList<>();
         ArrayList<Pharmacy> pharmacies = new ArrayList<>();
         ArrayList<Prescription> prescriptions = new ArrayList<>();
-        initPatients(connexionSQL);
-        initDoctors(connexionSQL);
-        initPharmacies(connexionSQL);
-        initPrescriptions(connexionSQL);
+        initPatients();
+        initDoctors();
+        initPharmacies();
+        initPrescriptions();
     }
 
-    public void initPatients(String[] connexionSQL) {
+    public void initPatients() {
 
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
@@ -119,7 +124,7 @@ public class DataFromMySQL {
         }
     }
 
-    public void initDoctors(String[] connexionSQL) {
+    public void initDoctors() {
 
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
@@ -148,7 +153,7 @@ public class DataFromMySQL {
         }
     }
 
-    public void initPharmacies(String[] connexionSQL) {
+    public void initPharmacies() {
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
             Statement statement = connection.createStatement();
@@ -177,7 +182,7 @@ public class DataFromMySQL {
         }
     }
 
-    public void initPrescriptions(String[] connexionSQL) {
+    public void initPrescriptions() {
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
             Statement statement = connection.createStatement();
@@ -218,7 +223,7 @@ public class DataFromMySQL {
     }
 
     public void addPatientToDB(int nss, String name, String password, int age, int weight, int height,
-            String special_mentions, String[] connexionSQL) {
+            String special_mentions) {
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
             String sql = "INSERT INTO patients (nss, name, password, age, weight, height, special_mentions) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -250,7 +255,7 @@ public class DataFromMySQL {
         }
     }
 
-    public void addDoctorToDB(String name, String password, int rpps, String[] connexionSQL) {
+    public void addDoctorToDB(String name, String password, int rpps) {
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
             String sql = "INSERT INTO doctors (rpps, name, password) VALUES (?, ?, ?)";
@@ -278,7 +283,7 @@ public class DataFromMySQL {
         }
     }
 
-    public void addPharmacyToDB(int id, String name, String password, String address, String[] connexionSQL) {
+    public void addPharmacyToDB(int id, String name, String password, String address) {
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
             String sql = "INSERT INTO pharmacies (id, name, password, address) VALUES (?, ?, ?, ?)";
@@ -308,7 +313,7 @@ public class DataFromMySQL {
     }
 
     public void addPrescriptionToDB(int id, String medicines, LocalDate date, int rpps, int numPharmacy, int nss,
-            String instructions, boolean isValidate, String[] connexionSQL) {
+            String instructions, boolean isValidate) {
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
             String sql = "INSERT INTO prescriptions (id, medicines, date, rpps, num_pharmacy, nss, instructions, is_validate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
