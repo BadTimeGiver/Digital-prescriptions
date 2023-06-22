@@ -13,8 +13,6 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
-
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class Main {
@@ -27,10 +25,13 @@ public class Main {
         String password = "root";
         String[] connexionSQL = { jdbcUrl, username, password };
         dataFromMySQL.initData(connexionSQL);
-        dataFromMySQL.addPrescriptionToDB(2, "2", LocalDate.of(2018, 9, 24), 2, 2, 2, "2", false, connexionSQL);
-        for (Prescription ph : dataFromMySQL.getPrescriptions()) {
-            System.out.println(ph);
-        }
+        /*
+         * dataFromMySQL.addPrescriptionToDB(2, "2", LocalDate.of(2018, 9, 24), 2, 2, 2,
+         * "2", false, connexionSQL);
+         * for (Prescription ph : dataFromMySQL.getPrescriptions()) {
+         * System.out.println(ph);
+         * }
+         */
         start();
     }
 

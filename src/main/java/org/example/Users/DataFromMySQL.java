@@ -76,6 +76,10 @@ public class DataFromMySQL {
     }
 
     public void initData(String[] connexionSQL) {
+        ArrayList<Patient> patients = new ArrayList<>();
+        ArrayList<Doctor> doctors = new ArrayList<>();
+        ArrayList<Pharmacy> pharmacies = new ArrayList<>();
+        ArrayList<Prescription> prescriptions = new ArrayList<>();
         initPatients(connexionSQL);
         initDoctors(connexionSQL);
         initPharmacies(connexionSQL);
