@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import static java.lang.Integer.parseInt;
 
 import org.example.Prescription;
 
@@ -53,7 +54,7 @@ public class DataFromMySQL {
         pharmacies.add(p);
     }
 
-    public Patient findPatientByNSS(int nss) {
+    public Patient findPatientByNSS(String nss) {
         for (Patient patient : patients) {
             if (patient.getNss() == nss) {
                 return patient;
@@ -62,7 +63,7 @@ public class DataFromMySQL {
         return null; // Patient not found
     }
 
-    public Doctor findDoctorByRPPS(int rpps) {
+    public Doctor findDoctorByRPPS(String rpps) {
         for (Doctor doctor : doctors) {
             if (doctor.getRpps() == rpps) {
                 return doctor;
@@ -71,9 +72,9 @@ public class DataFromMySQL {
         return null; // Doctor not found
     }
 
-    public Pharmacy findPharmacyByNum(int num) {
+    public Pharmacy findPharmacyByNum(Integer num) {
         for (Pharmacy pharmacy : pharmacies) {
-            if (pharmacy.getId() == num) {
+            if (pharmacy.getId() == num.toString()) {
                 return pharmacy;
             }
         }
@@ -100,7 +101,7 @@ public class DataFromMySQL {
             ResultSet resultSet = statement.executeQuery(sqlQuery);
 
             while (resultSet.next()) {
-                int nss = resultSet.getInt("nss");
+                String nss = resultSet.getString("nss");
                 String name = resultSet.getString("name");
                 String pwd = resultSet.getString("password");
                 int age = resultSet.getInt("age");
@@ -133,7 +134,7 @@ public class DataFromMySQL {
             ResultSet resultSet = statement.executeQuery(sqlQuery);
 
             while (resultSet.next()) {
-                int rpps = resultSet.getInt("rpps");
+                String rpps = resultSet.getString("rpps");
                 String name = resultSet.getString("name");
                 String pwd = resultSet.getString("password");
 
@@ -161,7 +162,7 @@ public class DataFromMySQL {
             ResultSet resultSet = statement.executeQuery(sqlQuery);
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
+                String id = resultSet.getString("id");
                 String name = resultSet.getString("name");
                 String pwd = resultSet.getString("password");
                 String adress = resultSet.getString("address");
@@ -193,9 +194,9 @@ public class DataFromMySQL {
                 int id = resultSet.getInt("id");
                 String medicines = resultSet.getString("medicines");
                 LocalDate date = resultSet.getDate("date").toLocalDate();
-                int rpps = resultSet.getInt("rpps");
+                String rpps = resultSet.getString("rpps");
                 int numPharmacy = resultSet.getInt("num_pharmacy");
-                int nss = resultSet.getInt("nss");
+                String nss = resultSet.getString("nss");
                 String instructions = resultSet.getString("instructions");
                 boolean isValidate = resultSet.getBoolean("is_validate");
 
@@ -222,13 +223,13 @@ public class DataFromMySQL {
         }
     }
 
-    public void addPatientToDB(int nss, String name, String password, int age, int weight, int height,
+    public void addPatientToDB(String nss, String name, String password, int age, int weight, int height,
             String special_mentions) {
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
             String sql = "INSERT INTO patients (nss, name, password, age, weight, height, special_mentions) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, nss);
+            statement.setString(1, nss);
             statement.setString(2, name);
             statement.setString(3, password);
             statement.setInt(4, age);
@@ -255,12 +256,12 @@ public class DataFromMySQL {
         }
     }
 
-    public void addDoctorToDB(String name, String password, int rpps) {
+    public void addDoctorToDB(String name, String password, String rpps) {
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
             String sql = "INSERT INTO doctors (rpps, name, password) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, rpps);
+            statement.setString(1, rpps);
             statement.setString(2, name);
             statement.setString(3, password);
 
@@ -283,12 +284,12 @@ public class DataFromMySQL {
         }
     }
 
-    public void addPharmacyToDB(int id, String name, String password, String address) {
+    public void addPharmacyToDB(String id, String name, String password, String address) {
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
             String sql = "INSERT INTO pharmacies (id, name, password, address) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, id);
+            statement.setString(1, id);
             statement.setString(2, name);
             statement.setString(3, password);
             statement.setString(4, address);
@@ -312,7 +313,7 @@ public class DataFromMySQL {
         }
     }
 
-    public void addPrescriptionToDB(int id, String medicines, LocalDate date, int rpps, int numPharmacy, int nss,
+    public void addPrescriptionToDB(int id, String medicines, LocalDate date, String rpps, int numPharmacy, String nss,
             String instructions, boolean isValidate) {
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
@@ -321,9 +322,9 @@ public class DataFromMySQL {
             statement.setInt(1, id);
             statement.setString(2, medicines);
             statement.setDate(3, java.sql.Date.valueOf(date));
-            statement.setInt(4, rpps);
+            statement.setString(4, rpps);
             statement.setInt(5, numPharmacy);
-            statement.setInt(6, nss);
+            statement.setString(6, nss);
             statement.setString(7, instructions);
             statement.setBoolean(8, isValidate);
 
@@ -345,6 +346,33 @@ public class DataFromMySQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Patient isExistingPatient(String user_val) {
+        for (Patient p : patients) {
+            if (p.getNss() == user_val) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public Doctor isExistingDoctor(String user_val) {
+        for (Doctor d : doctors) {
+            if (d.getRpps() == user_val) {
+                return d;
+            }
+        }
+        return null;
+    }
+
+    public Pharmacy isExistingPharmacy(String user_val) {
+        for (Pharmacy ph : pharmacies) {
+            if (ph.getId() == user_val) {
+                return ph;
+            }
+        }
+        return null;
     }
 
 }

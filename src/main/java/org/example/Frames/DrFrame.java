@@ -44,7 +44,7 @@ public class DrFrame {
         username.setText(doctor.getUserName());
         username.setEnabled(false);
         JTextField rpps = new JTextField(8);
-        rpps.setText(Integer.toString(doctor.getRpps()));
+        rpps.setText(doctor.getRpps());
 
         // adding elements to edit panel
         edit_panel.add(name_label);
@@ -69,7 +69,7 @@ public class DrFrame {
         date.setText("1900-01-01");
         JTextField doctorRPPS = new JTextField(8);
         JTextField patientUser = new JTextField(8);
-        doctorRPPS.setText(Integer.toString(doctor.getRpps()));
+        doctorRPPS.setText(doctor.getRpps());
         doctorRPPS.setEnabled(false);
         JTextArea instructions = new JTextArea(2, 8);
         JTextArea medicines = new JTextArea(2, 8);
@@ -195,7 +195,7 @@ public class DrFrame {
                 JOptionPane.showMessageDialog(null, "Wrong Inputs!");
             } else if (rpps.getText().matches("-?\\d+(\\.\\d+)?")) {
                 doctor.setName(name.getText());
-                doctor.setRpps(parseInt(rpps.getText()));
+                doctor.setRpps(rpps.getText());
                 doctor.setPassword(pass.getText());
                 JOptionPane.showMessageDialog(null, "Update Successful");
             } else {

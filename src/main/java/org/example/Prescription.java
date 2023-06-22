@@ -16,7 +16,7 @@ public class Prescription {
     private Doctor doctor;
     private Pharmacy pharmacy;
     private String instructions;
-    private int rpps; // à enlever
+    private String rpps; // à enlever
     private boolean isValidate = false;
 
     public Prescription(int id, String medicines, LocalDate date, Patient patient, Doctor doctor, Pharmacy pharmacy,
@@ -47,7 +47,7 @@ public class Prescription {
         instructions = instructions;
     }
 
-    public void setRpps(int rpps) {
+    public void setRpps(String rpps) {
         this.rpps = rpps;
     }
 
@@ -67,7 +67,7 @@ public class Prescription {
         this.patient = patient;
     }
 
-    public Prescription(ArrayList<String> listMedicine, LocalDate date, String instructions, int doctorRPPS) {
+    public Prescription(ArrayList<String> listMedicine, LocalDate date, String instructions, String doctorRPPS) {
         this.listMedicine = listMedicine;
         this.date = date;
         this.instructions = instructions;
@@ -98,7 +98,7 @@ public class Prescription {
         this.instructions = additionalInstructions;
     }
 
-    public int getRpps() {
+    public String getRpps() {
         return rpps;
     }
 

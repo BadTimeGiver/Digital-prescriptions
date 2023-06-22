@@ -1,18 +1,19 @@
 package org.example.Users;
 
 import org.example.Prescription;
-
 import java.util.ArrayList;
 import java.util.HashSet;
+import org.example.Users.DataFromMySQL;
 
 public class Doctor extends User {
-    private int rpps;
-    private HashSet<Patient> patients;
+    private String rpps;
+    private HashSet<Patient> patients; // à retirer
     private ArrayList<Prescription> prescriptions;
 
-    public Doctor(String name, String password, int rppsNumber) {
+    public Doctor(String name, String password, String rppsNumber) {
         super(name, password);
-        this.rpps = rppsNumber;
+        if (rppsNumber.matches("[0-9]+") && rppsNumber.length() == 11)
+            this.rpps = rppsNumber;
     }
 
     public HashSet<Patient> getPatients() {
@@ -23,18 +24,19 @@ public class Doctor extends User {
         return prescriptions;
     }
 
-    public Doctor(String name, String userName, String password, int rppsNumber) {
+    public Doctor(String name, String userName, String password, String rppsNumber) {
         super(name, userName, password);
-        this.rpps = rppsNumber;
+        if (rppsNumber.matches("[0-9]+") && rppsNumber.length() == 11)
+            this.rpps = rppsNumber;
         this.patients = new HashSet<>();
         this.prescriptions = new ArrayList<>();
     }
 
-    public int getRpps() {
+    public String getRpps() {
         return rpps;
     }
 
-    public void setRpps(int rppsNumber) {
+    public void setRpps(String rppsNumber) {
         this.rpps = rppsNumber;
     }
 

@@ -46,7 +46,7 @@ public class PatientFrame {
         username.setText(patient.getUserName());
         username.setEnabled(false);
         JTextField sec_number = new JTextField(8);
-        sec_number.setText(Integer.toString(patient.getNss()));
+        sec_number.setText(patient.getNss());
         JTextField special_mentions = new JTextField(8);
         special_mentions.setText(patient.getSpecialMentions());
         JTextField weight = new JTextField(8);
@@ -234,7 +234,7 @@ public class PatientFrame {
                 JOptionPane.showMessageDialog(null, "Wrong Inputs!");
             } else {
                 patient.setName(name.getText());
-                patient.setNss(parseInt(sec_number.getText()));
+                patient.setNss(sec_number.getText());
                 patient.setPassword(pass.getText());
                 patient.setSpecialMentions(special_mentions.getText());
                 patient.setAge(parseInt(age.getText()));

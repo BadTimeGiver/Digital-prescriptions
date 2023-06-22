@@ -5,14 +5,15 @@ import org.example.Prescription;
 import java.util.ArrayList;
 
 public class Pharmacy extends User {
-    private int id;
+    private String id;
     private String address;
     private ArrayList<Prescription> validated_prescriptions;
     private ArrayList<Prescription> not_validated_prescriptions;
 
-    public Pharmacy(String name, String password, int pharamcyNbr, String address) {
+    public Pharmacy(String name, String password, String pharamcyNbr, String address) {
         super(name, password);
-        this.id = pharamcyNbr;
+        if (pharamcyNbr.matches("[0-9]+") && pharamcyNbr.length() == 5)
+            this.id = pharamcyNbr;
         this.address = address;
     }
 
@@ -43,20 +44,21 @@ public class Pharmacy extends User {
      * }
      */
 
-    public Pharmacy(String name, String userName, String password, int pharamcyNbr, String address) {
+    public Pharmacy(String name, String userName, String password, String pharamcyNbr, String address) {
         super(name, userName, password);
-        this.id = pharamcyNbr;
+        if (pharamcyNbr.matches("[0-9]+") && pharamcyNbr.length() == 5)
+            this.id = pharamcyNbr;
         this.address = address;
         not_validated_prescriptions = new ArrayList<>();
         validated_prescriptions = new ArrayList<>();
         // this.validate_medicine = new HashMap<>();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int pharamcyNbr) {
+    public void setId(String pharamcyNbr) {
         this.id = pharamcyNbr;
     }
 

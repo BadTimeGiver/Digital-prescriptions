@@ -63,7 +63,7 @@ public class PharmaFrame {
         username.setText(pharmacy.getUserName());
         username.setEnabled(false);
         JTextField pharmacy_number = new JTextField(8);
-        pharmacy_number.setText(Integer.toString(pharmacy.getId()));
+        pharmacy_number.setText(pharmacy.getId());
         JTextField address = new JTextField(8);
         address.setText(pharmacy.getAddress());
 
@@ -141,7 +141,7 @@ public class PharmaFrame {
                 JOptionPane.showMessageDialog(null, "Wrong Inputs!");
             } else {
                 pharmacy.setName(name.getText());
-                pharmacy.setId(parseInt(pharmacy_number.getText()));
+                pharmacy.setId(pharmacy_number.getText());
                 pharmacy.setPassword(pass.getText());
                 pharmacy.setAddress(address.getText());
                 JOptionPane.showMessageDialog(null, "Update Successful");

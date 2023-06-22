@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class Patient extends User {
-    private int nss;
+    private String nss;
     private int age;
     private int weight;
     private int height;
@@ -15,9 +15,10 @@ public class Patient extends User {
     private ArrayList<Prescription> prescriptions_NOT_sent;
     private ArrayList<Prescription> returned_prescriptions;
 
-    public Patient(String name, String password, int nss, int age, int weight, int height, String specialMentions) {
+    public Patient(String name, String password, String nss, int age, int weight, int height, String specialMentions) {
         super(name, password);
-        this.nss = nss;
+        if (nss.matches("[0-9]+") && nss.length() == 13)
+            this.nss = nss;
         this.age = age;
         this.weight = weight;
         this.height = height;
@@ -40,10 +41,11 @@ public class Patient extends User {
         this.prescriptions_NOT_sent.add(prescription);
     }
 
-    public Patient(String name, String userName, String password, int numeroSec, int age, int weight, int height,
+    public Patient(String name, String userName, String password, String numeroSec, int age, int weight, int height,
             String specialMentions) {
         super(name, userName, password);
-        this.nss = numeroSec;
+        if (numeroSec.matches("[0-9]+") && numeroSec.length() == 13)
+            this.nss = numeroSec;
         this.age = age;
         this.weight = weight;
         this.height = height;
@@ -53,11 +55,11 @@ public class Patient extends User {
         this.returned_prescriptions = new ArrayList<>();
     }
 
-    public int getNss() {
+    public String getNss() {
         return nss;
     }
 
-    public void setNss(int numeroSec) {
+    public void setNss(String numeroSec) {
         this.nss = numeroSec;
     }
 
