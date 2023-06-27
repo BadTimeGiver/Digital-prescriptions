@@ -31,7 +31,7 @@ public class Main {
          * dataFromMySQL.addPrescriptionToDB(2, "2", LocalDate.of(2018, 9, 24), 2, 2, 2,
          * "2", false, connexionSQL);
          */
-        for (Doctor d : dataFromMySQL.getDoctors()) {
+        for (Prescription d : dataFromMySQL.getPrescriptions()) {
             System.out.println(d);
         }
 
@@ -58,6 +58,7 @@ public class Main {
         JButton sign_up = new JButton("Sign Up");
         JButton back_btn = new JButton("Back");
         final Boolean[] is_in_sign_up = { false };
+        JLabel username_label = new JLabel("Username:");
         JTextField user = new JTextField(8);
         JTextField name = new JTextField(8);
         JPasswordField pass = new JPasswordField(8);
@@ -68,7 +69,7 @@ public class Main {
         JLabel drRPPS_label = new JLabel("RPPS:");
         JTextField drRPPS = new JTextField(8);
 
-        // User Inputs
+        // Patient Inputs
         JLabel height_label = new JLabel("Height:");
         JLabel weight_label = new JLabel("Weight:");
         JLabel sec_number_label = new JLabel("Security Number:");
@@ -315,7 +316,7 @@ public class Main {
         panel1.add(profession_label);
         panel1.add(profession_CB);
 
-        panel1.add(new JLabel("Username:"));
+        panel1.add(username_label);
         panel1.add(user);
         panel1.add(new JLabel("Password:"));
         panel1.add(pass);

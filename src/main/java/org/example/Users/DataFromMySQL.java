@@ -348,6 +348,147 @@ public class DataFromMySQL {
         }
     }
 
+    public void addPrescriptionToDBWithoutPharmacyNumber(int id, String medicines, LocalDate date, String rpps,
+            String nss,
+            String instructions, boolean isValidate) {
+        try {
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
+            String sql = "INSERT INTO prescriptions (id, medicines, date, rpps, nss, instructions, is_validate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            statement.setString(2, medicines);
+            statement.setDate(3, java.sql.Date.valueOf(date));
+            statement.setString(4, rpps);
+            statement.setString(5, nss);
+            statement.setString(6, instructions);
+            statement.setBoolean(7, isValidate);
+
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Prescription added successfully!");
+                // Create a new Prescription object
+                Prescription prescription = new Prescription(id, medicines, date, findPatientByNSS(nss),
+                        findDoctorByRPPS(rpps), instructions, isValidate);
+                // Add the prescription to the local list
+                prescriptions.add(prescription);
+            } else {
+                System.out.println("Failed to add prescription.");
+            }
+
+            // Close the statement and connection
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePatientInDB(Patient patient) {
+        try {
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
+            String sql = "UPDATE patients SET name = ?, password = ?, age = ?, weight = ?, height = ?, special_mentions = ? WHERE nss = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, patient.getName());
+            statement.setString(2, patient.getPassword());
+            statement.setInt(3, patient.getAge());
+            statement.setInt(4, patient.getWeight());
+            statement.setInt(5, patient.getHeight());
+            statement.setString(6, patient.getSpecialMentions());
+            statement.setString(7, patient.getNss());
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Patient updated successfully!");
+            } else {
+                System.out.println("Failed to update patient.");
+            }
+
+            // Close the statement and connection
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDoctorInDB(Doctor doctor) {
+        try {
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
+            String sql = "UPDATE doctors SET name = ?, password = ? WHERE rpps = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, doctor.getName());
+            statement.setString(2, doctor.getPassword());
+            statement.setString(3, doctor.getRpps());
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Doctor updated successfully!");
+            } else {
+                System.out.println("Failed to update doctor.");
+            }
+
+            // Close the statement and connection
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePharmacyInDB(Pharmacy pharmacy) {
+        try {
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
+            String sql = "UPDATE pharmacies SET name = ?, password = ?, address = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, pharmacy.getName());
+            statement.setString(2, pharmacy.getPassword());
+            statement.setString(3, pharmacy.getAddress());
+            statement.setString(4, pharmacy.getId());
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Pharmacy updated successfully!");
+            } else {
+                System.out.println("Failed to update pharmacy.");
+            }
+
+            // Close the statement and connection
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePrescriptionInDB(Prescription prescription) {
+        try {
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
+            String sql = "UPDATE prescriptions SET medicines = ?, date = ?, rpps = ?, num_pharmacy = ?, nss = ?, instructions = ?, is_validate = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, prescription.getMedicines());
+            statement.setDate(2, java.sql.Date.valueOf(prescription.getDate()));
+            statement.setString(3, prescription.getDoctor().getRpps());
+            statement.setString(4, prescription.getPharmacy().getId());
+            statement.setString(5, prescription.getPatient().getNss());
+            statement.setString(6, prescription.getInstructions());
+            statement.setBoolean(7, prescription.isValidate());
+            statement.setInt(8, prescription.getId());
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Prescription updated successfully!");
+            } else {
+                System.out.println("Failed to update prescription.");
+            }
+
+            // Close the statement and connection
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Patient isExistingPatient(String user_val) {
         for (Patient p : patients) {
             if (p.getNss().equals(user_val)) {

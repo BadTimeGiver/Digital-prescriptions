@@ -31,6 +31,17 @@ public class Prescription {
         this.isValidate = isValidate;
     }
 
+    public Prescription(int id, String medicines, LocalDate date, Patient patient, Doctor doctor,
+            String instructions, boolean isValidate) {
+        this.id = id;
+        this.medicines = medicines;
+        this.date = date;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.instructions = instructions;
+        this.isValidate = isValidate;
+    }
+
     public String getMedicines() {
         return medicines;
     }
@@ -65,6 +76,30 @@ public class Prescription {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 
     public Prescription(ArrayList<String> listMedicine, LocalDate date, String instructions, String doctorRPPS) {

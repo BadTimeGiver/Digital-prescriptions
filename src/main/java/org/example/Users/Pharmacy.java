@@ -7,13 +7,12 @@ import java.util.ArrayList;
 public class Pharmacy extends User {
     private String id;
     private String address;
-    private ArrayList<Prescription> validated_prescriptions;
-    private ArrayList<Prescription> not_validated_prescriptions;
+    private ArrayList<Prescription> validated_prescriptions = new ArrayList<>();
+    private ArrayList<Prescription> not_validated_prescriptions = new ArrayList<>();
 
-    public Pharmacy(String name, String password, String pharamcyNbr, String address) {
+    public Pharmacy(String name, String password, String id, String address) {
         super(name, password);
-        if (pharamcyNbr.matches("[0-9]+") && pharamcyNbr.length() == 5)
-            this.id = pharamcyNbr;
+        this.id = id;
         this.address = address;
     }
 

@@ -14,6 +14,7 @@ import java.util.Collections;
 
 import static java.lang.Integer.parseInt;
 import static org.example.Main.listUsers;
+import static org.example.Main.dataFromMySQL;;
 
 public class DrFrame {
 
@@ -177,18 +178,6 @@ public class DrFrame {
         });
         account.add(log_out);
 
-        // check if a user is present
-        class check_users {
-            public Patient isPresent(String user_val) {
-                for (var i : listUsers) {
-                    if (i.getUserName().equals(user_val) && i instanceof Patient) {
-                        return (Patient) i;
-                    }
-                }
-                return null;
-            }
-        }
-
         // edit button
         edit_btn.addActionListener(e -> {
             if ((name.getText().isEmpty() || pass.getText().isEmpty())) {
@@ -197,6 +186,7 @@ public class DrFrame {
                 doctor.setName(name.getText());
                 doctor.setRpps(rpps.getText());
                 doctor.setPassword(pass.getText());
+                dataFromMySQL.updateDoctorInDB(doctor);
                 JOptionPane.showMessageDialog(null, "Update Successful");
             } else {
                 JOptionPane.showMessageDialog(null, "RPPS should be a number");
@@ -214,14 +204,15 @@ public class DrFrame {
                     parseInt(date.getText().substring(5, 7)) <= 12 &&
                     parseInt(date.getText().substring(8, 10)) >= 1 &&
                     parseInt(date.getText().substring(8, 10)) <= 31) {
-                check_users check_user = new check_users();
                 Patient temp_patient;
-                if ((temp_patient = check_user.isPresent(patientUser.getText())) != null) {
+                if ((temp_patient = dataFromMySQL.isExistingPatient(patientUser.getText())) != null) {
                     ArrayList<String> temp_arr = new ArrayList<>();
                     Collections.addAll(temp_arr, medicines.getText().split("\n"));
 
-                    doctor.addPrescription(temp_patient, new Prescription(temp_arr, LocalDate.parse(date.getText()),
-                            instructions.getText(), doctor.getRpps()));
+                    dataFromMySQL.addPrescriptionToDBWithoutPharmacyNumber(dataFromMySQL.getPrescriptions().size(),
+                            medicines.getText(),
+                            LocalDate.parse(date.getText()), doctor.getRpps(), temp_patient.getNss(),
+                            instructions.getText(), false);
                     JOptionPane.showMessageDialog(null, "New Prescription added successfully!");
 
                 } else {
