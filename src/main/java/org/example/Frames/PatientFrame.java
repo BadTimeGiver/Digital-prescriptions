@@ -127,7 +127,7 @@ public class PatientFrame {
         JMenuItem newPrescrItem = new JMenuItem("New", KeyEvent.VK_N);
         newPrescrItem.addActionListener(e -> {
             String result = "";
-            for (var i : patient.getPrescriptions_NOT_sent()) {
+            for (var i : dataFromMySQL.PrescriptionNotSentFromPatient(patient)) {
                 result += i + "\n------------------\n";
             }
             prescriptions_not_sent.setText(result);
