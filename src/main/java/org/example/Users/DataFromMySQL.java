@@ -530,6 +530,93 @@ public class DataFromMySQL {
         return notSentPrescriptions;
     }
 
+    public ArrayList<Prescription> PrescriptionSentFromPatient(Patient patient) {
+        ArrayList<Prescription> sentPrescriptions = new ArrayList<>();
+
+        try {
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
+            String sqlQuery = "SELECT * FROM prescriptions WHERE nss = ? AND num_pharmacy IS NOT NULL";
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setString(1, patient.getNss());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String medicines = resultSet.getString("medicines");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
+                String rpps = resultSet.getString("rpps");
+                int numPharmacy = resultSet.getInt("num_pharmacy");
+                String nss = resultSet.getString("nss");
+                String instructions = resultSet.getString("instructions");
+                boolean isValidate = resultSet.getBoolean("is_validate");
+
+                // Retrieve the associated doctor and pharmacy based on RPPS and numPharmacy
+                Doctor doctor = findDoctorByRPPS(rpps);
+                Pharmacy pharmacy = findPharmacyByNum(numPharmacy);
+
+                // Create a new Prescription object with the retrieved data
+                Prescription prescription = new Prescription(id, medicines, date, patient, doctor, pharmacy,
+                        instructions, isValidate);
+
+                // Add the prescription to the list of sent prescriptions
+                sentPrescriptions.add(prescription);
+            }
+
+            // Close the result set, statement, and connection
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sentPrescriptions;
+    }
+
+    public ArrayList<Prescription> PrescriptionReturnedToPatient(Patient patient) {
+        ArrayList<Prescription> returnedPrescriptions = new ArrayList<>();
+
+        try {
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
+            String sqlQuery = "SELECT * FROM prescriptions WHERE nss = ? AND num_pharmacy IS NOT NULL AND is_validate = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setString(1, patient.getNss());
+            statement.setBoolean(2, true);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String medicines = resultSet.getString("medicines");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
+                String rpps = resultSet.getString("rpps");
+                int numPharmacy = resultSet.getInt("num_pharmacy");
+                String nss = resultSet.getString("nss");
+                String instructions = resultSet.getString("instructions");
+                boolean isValidate = resultSet.getBoolean("is_validate");
+
+                // Retrieve the associated doctor and pharmacy based on RPPS and numPharmacy
+                Doctor doctor = findDoctorByRPPS(rpps);
+                Pharmacy pharmacy = findPharmacyByNum(numPharmacy);
+
+                // Create a new Prescription object with the retrieved data
+                Prescription prescription = new Prescription(id, medicines, date, patient, doctor, pharmacy,
+                        instructions, isValidate);
+
+                // Add the prescription to the list of returned prescriptions
+                returnedPrescriptions.add(prescription);
+            }
+
+            // Close the result set, statement, and connection
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return returnedPrescriptions;
+    }
+
     public Patient isExistingPatient(String user_val) {
         for (Patient p : patients) {
             if (p.getNss().equals(user_val)) {

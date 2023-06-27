@@ -143,7 +143,7 @@ public class PatientFrame {
         JMenuItem historyItem = new JMenuItem("History", KeyEvent.VK_H);
         historyItem.addActionListener(e -> {
             String result = "";
-            for (var i : patient.getPrescriptions_sent()) {
+            for (var i : dataFromMySQL.PrescriptionSentFromPatient(patient)) {
                 result += i + "\n------------------\n";
             }
             prescriptions_sent.setText(result);
@@ -181,7 +181,7 @@ public class PatientFrame {
         JMenuItem viewClientsItemReceived = new JMenuItem("From Pharmacy");
         viewClientsItemReceived.addActionListener(e -> {
             String result = "";
-            for (var i : patient.getReturned_prescriptions()) {
+            for (var i : dataFromMySQL.PrescriptionReturnedToPatient(patient)) {
                 result += ((i.isValidate() ? "CONFIRMED\n" : "NOT CONFIRMED\n") + i + "\n------------------\n");
             }
             prescriptions_received.setText(result);
