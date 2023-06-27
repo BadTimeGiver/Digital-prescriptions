@@ -182,7 +182,7 @@ public class PatientFrame {
         viewClientsItemReceived.addActionListener(e -> {
             String result = "";
             for (var i : dataFromMySQL.PrescriptionReturnedToPatient(patient)) {
-                result += ((i.isValidate() ? "CONFIRMED\n" : "NOT CONFIRMED\n") + i + "\n------------------\n");
+                result += i + "\n------------------\n";
             }
             prescriptions_received.setText(result);
             frame.remove(edit_panel);
