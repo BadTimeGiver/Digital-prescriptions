@@ -247,13 +247,16 @@ public class PatientFrame {
         });
 
         send_btn.addActionListener(e -> {
-            if (pharmacy.getText().isEmpty() || patient.getPrescriptions_NOT_sent().size() == 0) {
-                JOptionPane.showMessageDialog(null, "Wrong Input");
+            if (pharmacy.getText().isEmpty() || dataFromMySQL.PrescriptionNotSentFromPatient(patient).size() == 0) {
+                JOptionPane.showMessageDialog(null, "Test");
             } else {
                 check_users check_user = new check_users();
                 Pharmacy temp_pharmacy;
-                if ((temp_pharmacy = check_user.isPresent(pharmacy.getText())) != null) {
-                    patient.sendPrescription((Prescription) combo_box_prescr.getSelectedItem(), temp_pharmacy);
+                if ((dataFromMySQL.isExistingPharmacy(pharmacy.getText()) != null)) {
+                    ((Prescription) combo_box_prescr.getSelectedItem())
+                            .setPharmacy(dataFromMySQL.isExistingPharmacy(pharmacy.getText()));
+                    dataFromMySQL.updatePrescriptionInDB(dataFromMySQL
+                            .findPrescriptionByNum(((Prescription) combo_box_prescr.getSelectedItem()).getId()));
                     JOptionPane.showMessageDialog(null, "Prescription sent successfully!");
 
                 } else {

@@ -81,6 +81,15 @@ public class DataFromMySQL {
         return null; // Pharmacy not found
     }
 
+    public Prescription findPrescriptionByNum(Integer num) {
+        for (Prescription prescription : prescriptions) {
+            if (prescription.getId() == num) {
+                return prescription;
+            }
+        }
+        return null; // Pharmacy not found
+    }
+
     public void initData() {
         ArrayList<Patient> patients = new ArrayList<>();
         ArrayList<Doctor> doctors = new ArrayList<>();

@@ -154,6 +154,9 @@ public class PharmaFrame {
             if (combo_box_prescr.getSelectedItem() != null) {
                 JOptionPane.showMessageDialog(null, "Update Successful");
                 pharmacy.validate_prescription((Prescription) combo_box_prescr.getSelectedItem(), true);
+                ((Prescription) combo_box_prescr.getSelectedItem()).setValidate(true);
+                dataFromMySQL.updatePrescriptionInDB(dataFromMySQL
+                        .findPrescriptionByNum(((Prescription) combo_box_prescr.getSelectedItem()).getId()));
             } else {
                 JOptionPane.showMessageDialog(null, "Wrong Inputs");
             }
@@ -163,6 +166,9 @@ public class PharmaFrame {
             if (combo_box_prescr.getSelectedItem() != null) {
                 JOptionPane.showMessageDialog(null, "Update Successful");
                 pharmacy.validate_prescription((Prescription) combo_box_prescr.getSelectedItem(), false);
+                ((Prescription) combo_box_prescr.getSelectedItem()).setValidate(false);
+                dataFromMySQL.updatePrescriptionInDB(dataFromMySQL
+                        .findPrescriptionByNum(((Prescription) combo_box_prescr.getSelectedItem()).getId()));
 
             } else {
                 JOptionPane.showMessageDialog(null, "Wrong Inputs");
