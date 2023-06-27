@@ -350,7 +350,7 @@ public class DataFromMySQL {
 
     public Patient isExistingPatient(String user_val) {
         for (Patient p : patients) {
-            if (p.getNss() == user_val) {
+            if (p.getNss().equals(user_val)) {
                 return p;
             }
         }
@@ -359,7 +359,7 @@ public class DataFromMySQL {
 
     public Doctor isExistingDoctor(String user_val) {
         for (Doctor d : doctors) {
-            if (d.getRpps() == user_val) {
+            if (d.getRpps().equals(user_val)) {
                 return d;
             }
         }
@@ -368,7 +368,7 @@ public class DataFromMySQL {
 
     public Pharmacy isExistingPharmacy(String user_val) {
         for (Pharmacy ph : pharmacies) {
-            if (ph.getId() == user_val) {
+            if (ph.getId().equals(user_val)) {
                 return ph;
             }
         }

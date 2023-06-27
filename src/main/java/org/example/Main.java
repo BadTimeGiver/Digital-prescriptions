@@ -163,7 +163,7 @@ public class Main {
 
                 } else if (profession_CB.getSelectedItem() == "Doctor"
                         && (!drRPPS.getText().matches("-?\\d+(\\.\\d+)?") || drRPPS.getText().length() != 11)) {
-                    JOptionPane.showMessageDialog(null, "RPPS is a number!!");
+                    JOptionPane.showMessageDialog(null, "RPPS must be a 11 length number!!");
 
                 } else if (profession_CB.getSelectedItem() == "Patient"
                         && (!height.getText().matches("-?\\d+(\\.\\d+)?")
@@ -244,7 +244,7 @@ public class Main {
                 }
             }
 
-            if ((temp_user = dataFromMySQL.isExistingDoctor(input)) != null
+            else if ((temp_user = dataFromMySQL.isExistingDoctor(input)) != null
                     && profession_CB.getSelectedItem() == "Doctor") {
                 if (temp_user.getPassword().equals(password)) {
                     frame.dispose();
@@ -254,7 +254,7 @@ public class Main {
                 }
             }
 
-            if ((temp_user = dataFromMySQL.isExistingPharmacy(input)) != null
+            else if ((temp_user = dataFromMySQL.isExistingPharmacy(input)) != null
                     && profession_CB.getSelectedItem() == "Pharmacist") {
                 if (temp_user.getPassword().equals(password)) {
                     frame.dispose();
@@ -263,6 +263,7 @@ public class Main {
                     JOptionPane.showMessageDialog(null, "Incorrect Password!");
                 }
             }
+
             if (temp_user == null)
                 JOptionPane.showMessageDialog(null, "User Not Found!");
 
