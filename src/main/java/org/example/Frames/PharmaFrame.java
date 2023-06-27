@@ -28,7 +28,7 @@ public class PharmaFrame {
         // new prescriptions tab
         JLabel prescriptions_not_sent_label = new JLabel("New Prescriptions Received:");
         JComboBox<Prescription> combo_box_prescr = new JComboBox<>();
-        for (var i : pharmacy.getNot_validated_prescriptions()) {
+        for (var i : dataFromMySQL.PrescriptionNotValidated(pharmacy)) {
             combo_box_prescr.addItem(i);
         }
         JButton confirm_btn = new JButton("Confirm Prescription");
@@ -92,7 +92,7 @@ public class PharmaFrame {
         JMenuItem newPrescrItem = new JMenuItem("New", KeyEvent.VK_N);
         newPrescrItem.addActionListener(e -> {
             combo_box_prescr.removeAllItems();
-            for (var i : pharmacy.getNot_validated_prescriptions()) {
+            for (var i : dataFromMySQL.PrescriptionNotValidated(pharmacy)) {
                 combo_box_prescr.addItem(i);
             }
             frame.remove(edit_panel);
@@ -105,7 +105,7 @@ public class PharmaFrame {
         JMenuItem historyItem = new JMenuItem("History", KeyEvent.VK_H);
         historyItem.addActionListener(e -> {
             String result = "";
-            for (var i : pharmacy.getValidated_prescriptions()) {
+            for (var i : dataFromMySQL.PrescriptionValidated(pharmacy)) {
                 result += i + "\n------------------\n";
             }
             prescriptions_sent.setText(result);

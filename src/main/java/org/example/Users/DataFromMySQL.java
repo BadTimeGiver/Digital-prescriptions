@@ -504,7 +504,6 @@ public class DataFromMySQL {
                 String medicines = resultSet.getString("medicines");
                 LocalDate date = resultSet.getDate("date").toLocalDate();
                 String rpps = resultSet.getString("rpps");
-                String nss = resultSet.getString("nss");
                 String instructions = resultSet.getString("instructions");
                 boolean isValidate = resultSet.getBoolean("is_validate");
 
@@ -615,6 +614,88 @@ public class DataFromMySQL {
         }
 
         return returnedPrescriptions;
+    }
+
+    public ArrayList<Prescription> PrescriptionValidated(Pharmacy pharmacy) {
+        ArrayList<Prescription> validatedPrescriptions = new ArrayList<>();
+
+        try {
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
+            String sqlQuery = "SELECT * FROM prescriptions WHERE num_pharmacy = ? AND is_validate = true";
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setString(1, pharmacy.getId());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String medicines = resultSet.getString("medicines");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
+                String rpps = resultSet.getString("rpps");
+                String nss = resultSet.getString("nss");
+                String instructions = resultSet.getString("instructions");
+
+                // Retrieve the associated patient and doctor based on NSS and RPPS
+                Patient patient = findPatientByNSS(nss);
+                Doctor doctor = findDoctorByRPPS(rpps);
+
+                // Create a new Prescription object with the retrieved data
+                Prescription prescription = new Prescription(id, medicines, date, patient, doctor, pharmacy,
+                        instructions, true);
+
+                // Add the prescription to the list of validated prescriptions
+                validatedPrescriptions.add(prescription);
+            }
+
+            // Close the result set, statement, and connection
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return validatedPrescriptions;
+    }
+
+    public ArrayList<Prescription> PrescriptionNotValidated(Pharmacy pharmacy) {
+        ArrayList<Prescription> notValidatedPrescriptions = new ArrayList<>();
+
+        try {
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
+            String sqlQuery = "SELECT * FROM prescriptions WHERE num_pharmacy = ? AND is_validate = false";
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setString(1, pharmacy.getId());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String medicines = resultSet.getString("medicines");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
+                String rpps = resultSet.getString("rpps");
+                String nss = resultSet.getString("nss");
+                String instructions = resultSet.getString("instructions");
+
+                // Retrieve the associated patient and doctor based on NSS and RPPS
+                Patient patient = findPatientByNSS(nss);
+                Doctor doctor = findDoctorByRPPS(rpps);
+
+                // Create a new Prescription object with the retrieved data
+                Prescription prescription = new Prescription(id, medicines, date, patient, doctor, pharmacy,
+                        instructions, false);
+
+                // Add the prescription to the list of not validated prescriptions
+                notValidatedPrescriptions.add(prescription);
+            }
+
+            // Close the result set, statement, and connection
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return notValidatedPrescriptions;
     }
 
     public Patient isExistingPatient(String user_val) {

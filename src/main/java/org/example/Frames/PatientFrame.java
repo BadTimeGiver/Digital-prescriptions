@@ -96,7 +96,7 @@ public class PatientFrame {
         JLabel pharmacy_label = new JLabel("Pharmacy User:");
         JTextField pharmacy = new JTextField(8);
         JComboBox<Prescription> combo_box_prescr = new JComboBox<>();
-        for (var i : patient.getPrescriptions_NOT_sent()) {
+        for (var i : dataFromMySQL.PrescriptionNotSentFromPatient(patient)) {
             combo_box_prescr.addItem(i);
         }
         JButton send_btn = new JButton("Send to Pharmacy");
@@ -162,7 +162,7 @@ public class PatientFrame {
         JMenuItem viewClientsItem = new JMenuItem("To Pharmacy");
         viewClientsItem.addActionListener(e -> {
             combo_box_prescr.removeAllItems();
-            for (var i : patient.getPrescriptions_NOT_sent()) {
+            for (var i : dataFromMySQL.PrescriptionNotSentFromPatient(patient)) {
                 combo_box_prescr.addItem(i);
             }
             frame.remove(edit_panel);
