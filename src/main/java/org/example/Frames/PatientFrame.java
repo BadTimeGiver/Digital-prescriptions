@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 
 import static java.lang.Integer.parseInt;
 import static org.example.Main.listUsers;
+import static org.example.Main.dataFromMySQL;
 
 public class PatientFrame {
 
@@ -240,6 +241,7 @@ public class PatientFrame {
                 patient.setAge(parseInt(age.getText()));
                 patient.setWeight(parseInt(weight.getText()));
                 patient.setHeight(parseInt(height.getText()));
+                dataFromMySQL.updatePatientInDB(patient);
                 JOptionPane.showMessageDialog(null, "Update Successful");
             }
         });

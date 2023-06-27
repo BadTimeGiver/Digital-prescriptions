@@ -55,7 +55,7 @@ public class Prescription {
     }
 
     public void setInstructions(String instructions) {
-        instructions = instructions;
+        this.instructions = instructions;
     }
 
     public void setRpps(String rpps) {

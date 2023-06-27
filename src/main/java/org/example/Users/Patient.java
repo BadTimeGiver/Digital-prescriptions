@@ -12,8 +12,8 @@ public class Patient extends User {
     private int height;
     private String specialMentions;
     private ArrayList<Prescription> prescriptions_sent = new ArrayList<>();
-    private ArrayList<Prescription> prescriptions_NOT_sent = new ArrayList<>();;
-    private ArrayList<Prescription> returned_prescriptions = new ArrayList<>();;
+    private ArrayList<Prescription> prescriptions_NOT_sent = new ArrayList<>();
+    private ArrayList<Prescription> returned_prescriptions = new ArrayList<>();
 
     public Patient(String name, String password, String nss, int age, int weight, int height, String specialMentions) {
         super(name, password);

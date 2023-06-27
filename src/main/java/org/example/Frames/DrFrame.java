@@ -14,7 +14,7 @@ import java.util.Collections;
 
 import static java.lang.Integer.parseInt;
 import static org.example.Main.listUsers;
-import static org.example.Main.dataFromMySQL;;
+import static org.example.Main.dataFromMySQL;
 
 public class DrFrame {
 

@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 import static java.lang.Integer.parseInt;
+import static org.example.Main.dataFromMySQL;
 
 public class PharmaFrame {
 
