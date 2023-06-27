@@ -145,6 +145,7 @@ public class PharmaFrame {
                 pharmacy.setId(pharmacy_number.getText());
                 pharmacy.setPassword(pass.getText());
                 pharmacy.setAddress(address.getText());
+                dataFromMySQL.updatePharmacyInDB(pharmacy);
                 JOptionPane.showMessageDialog(null, "Update Successful");
             }
         });
