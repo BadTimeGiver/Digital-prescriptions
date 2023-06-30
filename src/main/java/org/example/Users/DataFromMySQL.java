@@ -56,7 +56,7 @@ public class DataFromMySQL {
 
     public Patient findPatientByNSS(String nss) {
         for (Patient patient : patients) {
-            if (patient.getNss() == nss) {
+            if (patient.getNss().equals(nss)) {
                 return patient;
             }
         }
@@ -65,16 +65,16 @@ public class DataFromMySQL {
 
     public Doctor findDoctorByRPPS(String rpps) {
         for (Doctor doctor : doctors) {
-            if (doctor.getRpps() == rpps) {
+            if (doctor.getRpps().equals(rpps)) {
                 return doctor;
             }
         }
         return null; // Doctor not found
     }
 
-    public Pharmacy findPharmacyByNum(Integer num) {
+    public Pharmacy findPharmacyByNum(String num) {
         for (Pharmacy pharmacy : pharmacies) {
-            if (pharmacy.getId() == num.toString()) {
+            if (pharmacy.getId().equals(num)) {
                 return pharmacy;
             }
         }
@@ -204,7 +204,7 @@ public class DataFromMySQL {
                 String medicines = resultSet.getString("medicines");
                 LocalDate date = resultSet.getDate("date").toLocalDate();
                 String rpps = resultSet.getString("rpps");
-                int numPharmacy = resultSet.getInt("num_pharmacy");
+                String numPharmacy = resultSet.getString("num_pharmacy");
                 String nss = resultSet.getString("nss");
                 String instructions = resultSet.getString("instructions");
                 boolean isValidate = resultSet.getBoolean("is_validate");
@@ -322,7 +322,8 @@ public class DataFromMySQL {
         }
     }
 
-    public void addPrescriptionToDB(int id, String medicines, LocalDate date, String rpps, int numPharmacy, String nss,
+    public void addPrescriptionToDB(int id, String medicines, LocalDate date, String rpps, String numPharmacy,
+            String nss,
             String instructions, boolean isValidate) {
         try {
             Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
@@ -332,7 +333,7 @@ public class DataFromMySQL {
             statement.setString(2, medicines);
             statement.setDate(3, java.sql.Date.valueOf(date));
             statement.setString(4, rpps);
-            statement.setInt(5, numPharmacy);
+            statement.setString(5, numPharmacy);
             statement.setString(6, nss);
             statement.setString(7, instructions);
             statement.setBoolean(8, isValidate);
@@ -553,7 +554,7 @@ public class DataFromMySQL {
                 String medicines = resultSet.getString("medicines");
                 LocalDate date = resultSet.getDate("date").toLocalDate();
                 String rpps = resultSet.getString("rpps");
-                int numPharmacy = resultSet.getInt("num_pharmacy");
+                String numPharmacy = resultSet.getString("num_pharmacy");
                 String nss = resultSet.getString("nss");
                 String instructions = resultSet.getString("instructions");
                 boolean isValidate = resultSet.getBoolean("is_validate");
@@ -597,7 +598,7 @@ public class DataFromMySQL {
                 String medicines = resultSet.getString("medicines");
                 LocalDate date = resultSet.getDate("date").toLocalDate();
                 String rpps = resultSet.getString("rpps");
-                int numPharmacy = resultSet.getInt("num_pharmacy");
+                String numPharmacy = resultSet.getString("num_pharmacy");
                 String nss = resultSet.getString("nss");
                 String instructions = resultSet.getString("instructions");
                 boolean isValidate = resultSet.getBoolean("is_validate");

@@ -139,9 +139,9 @@ public class Prescription {
 
     @Override
     public String toString() {
-        return "listMedicine=" + listMedicine +
-                "\ndate=" + date +
-                "\nInstructions='" + instructions + '\'' +
-                "\ndoctorRPPS=" + rpps;
+        return " Medicines=" + medicines +
+                "\n Date=" + date +
+                "\n Instructions='" + instructions + '\'' +
+                "\n Doctor=" + doctor.getName();
     }
 }

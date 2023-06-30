@@ -31,7 +31,7 @@ public class Main {
          * dataFromMySQL.addPrescriptionToDB(2, "2", LocalDate.of(2018, 9, 24), 2, 2, 2,
          * "2", false, connexionSQL);
          */
-        for (Prescription d : dataFromMySQL.getPrescriptions()) {
+        for (Doctor d : dataFromMySQL.getDoctors()) {
             System.out.println(d);
         }
 

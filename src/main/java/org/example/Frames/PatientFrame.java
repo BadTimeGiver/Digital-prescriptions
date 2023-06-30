@@ -216,18 +216,6 @@ public class PatientFrame {
         });
         account.add(log_out);
 
-        // check if a user is present
-        class check_users {
-            public Pharmacy isPresent(String user_val) {
-                for (var i : listUsers) {
-                    if (i.getUserName().equals(user_val) && i instanceof Pharmacy) {
-                        return (Pharmacy) i;
-                    }
-                }
-                return null;
-            }
-        }
-
         edit_btn.addActionListener(e -> {
             if ((name.getText().equals("") || pass.getText().equals(""))
                     || !sec_number.getText().matches("-?\\d+(\\.\\d+)?") || !age.getText().matches("-?\\d+(\\.\\d+)?")
@@ -248,13 +236,12 @@ public class PatientFrame {
 
         send_btn.addActionListener(e -> {
             if (pharmacy.getText().isEmpty() || dataFromMySQL.PrescriptionNotSentFromPatient(patient).size() == 0) {
-                JOptionPane.showMessageDialog(null, "Test");
+                JOptionPane.showMessageDialog(null, "Some field are empty");
             } else {
-                check_users check_user = new check_users();
-                Pharmacy temp_pharmacy;
                 if ((dataFromMySQL.isExistingPharmacy(pharmacy.getText()) != null)) {
-                    ((Prescription) combo_box_prescr.getSelectedItem())
+                    dataFromMySQL.findPrescriptionByNum(((Prescription) combo_box_prescr.getSelectedItem()).getId())
                             .setPharmacy(dataFromMySQL.isExistingPharmacy(pharmacy.getText()));
+
                     dataFromMySQL.updatePrescriptionInDB(dataFromMySQL
                             .findPrescriptionByNum(((Prescription) combo_box_prescr.getSelectedItem()).getId()));
                     JOptionPane.showMessageDialog(null, "Prescription sent successfully!");

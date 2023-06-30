@@ -153,8 +153,8 @@ public class PharmaFrame {
         confirm_btn.addActionListener(e -> {
             if (combo_box_prescr.getSelectedItem() != null) {
                 JOptionPane.showMessageDialog(null, "Update Successful");
-                pharmacy.validate_prescription((Prescription) combo_box_prescr.getSelectedItem(), true);
-                ((Prescription) combo_box_prescr.getSelectedItem()).setValidate(true);
+                dataFromMySQL.findPrescriptionByNum(((Prescription) combo_box_prescr.getSelectedItem()).getId())
+                        .setValidate(true);
                 dataFromMySQL.updatePrescriptionInDB(dataFromMySQL
                         .findPrescriptionByNum(((Prescription) combo_box_prescr.getSelectedItem()).getId()));
             } else {
@@ -165,8 +165,8 @@ public class PharmaFrame {
         not_confirm_btn.addActionListener(e -> {
             if (combo_box_prescr.getSelectedItem() != null) {
                 JOptionPane.showMessageDialog(null, "Update Successful");
-                pharmacy.validate_prescription((Prescription) combo_box_prescr.getSelectedItem(), false);
-                ((Prescription) combo_box_prescr.getSelectedItem()).setValidate(false);
+                dataFromMySQL.findPrescriptionByNum(((Prescription) combo_box_prescr.getSelectedItem()).getId())
+                        .setValidate(false);
                 dataFromMySQL.updatePrescriptionInDB(dataFromMySQL
                         .findPrescriptionByNum(((Prescription) combo_box_prescr.getSelectedItem()).getId()));
 
