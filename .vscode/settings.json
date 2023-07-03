@@ -1,0 +1,10 @@
+{
+    "java.project.referencedLibraries": [
+      "lib/**/*.jar",
+      "mysql-connector-java-8.0.30.jar",
+      "protobuf-java-3.19.4.jar"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.configuration.updateBuildConfiguration": "interactive"
+  }
+  

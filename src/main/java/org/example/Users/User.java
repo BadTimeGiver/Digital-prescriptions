@@ -25,9 +25,15 @@ abstract public class User {
         this.password = password;
     }
 
-    User(String name, String userName, String password){
+    User(String name, String userName, String password) {
         this.name = name;
         this.userName = userName;
+        this.password = password;
+    }
+
+    User(String name, String password) {
+        this.name = name;
+        userName = "";
         this.password = password;
     }
 

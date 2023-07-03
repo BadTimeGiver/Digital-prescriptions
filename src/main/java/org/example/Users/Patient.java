@@ -6,22 +6,28 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class Patient extends User {
-    private int numeroSec;
+    private String nss;
     private int age;
     private int weight;
     private int height;
     private String specialMentions;
-    private ArrayList<Prescription> prescriptions_sent;
-    private ArrayList<Prescription> prescriptions_NOT_sent;
-    private ArrayList<Prescription> returned_prescriptions;
+    private ArrayList<Prescription> prescriptions_sent = new ArrayList<>();
+    private ArrayList<Prescription> prescriptions_NOT_sent = new ArrayList<>();
+    private ArrayList<Prescription> returned_prescriptions = new ArrayList<>();
 
+    public Patient(String name, String password, String nss, int age, int weight, int height, String specialMentions) {
+        super(name, password);
+        if (nss.matches("[0-9]+") && nss.length() == 13)
+            this.nss = nss;
+        this.age = age;
+        this.weight = weight;
+        this.height = height;
+        this.specialMentions = specialMentions;
+    }
 
     public ArrayList<Prescription> getReturned_prescriptions() {
         return returned_prescriptions;
     }
-
-
-
 
     public ArrayList<Prescription> getPrescriptions_sent() {
         return prescriptions_sent;
@@ -31,15 +37,15 @@ public class Patient extends User {
         return prescriptions_NOT_sent;
     }
 
-
     public void setNewPrescriptions(Prescription prescription) {
         this.prescriptions_NOT_sent.add(prescription);
     }
 
-
-    public Patient(String name, String userName, String password, int numeroSec, int age, int weight, int height, String specialMentions) {
+    public Patient(String name, String userName, String password, String numeroSec, int age, int weight, int height,
+            String specialMentions) {
         super(name, userName, password);
-        this.numeroSec = numeroSec;
+        if (numeroSec.matches("[0-9]+") && numeroSec.length() == 13)
+            this.nss = numeroSec;
         this.age = age;
         this.weight = weight;
         this.height = height;
@@ -49,13 +55,12 @@ public class Patient extends User {
         this.returned_prescriptions = new ArrayList<>();
     }
 
-
-    public int getNumeroSec() {
-        return numeroSec;
+    public String getNss() {
+        return nss;
     }
 
-    public void setNumeroSec(int numeroSec) {
-        this.numeroSec = numeroSec;
+    public void setNss(String numeroSec) {
+        this.nss = numeroSec;
     }
 
     public int getAge() {
@@ -99,7 +104,7 @@ public class Patient extends User {
     @Override
     public String toString() {
         return "Name= " + super.getName() +
-                "\nnumeroSec=" + numeroSec +
+                "\nnumeroSec=" + nss +
                 "\nage=" + age +
                 "\nweight=" + weight +
                 "\nheight=" + height;

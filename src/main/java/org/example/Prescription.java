@@ -1,17 +1,66 @@
 package org.example;
 
+import org.example.Users.Doctor;
 import org.example.Users.Patient;
+import org.example.Users.Pharmacy;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Prescription {
-    private ArrayList<String> listMedicine;
+    private ArrayList<String> listMedicine; // à enlever
+    private int id;
+    private String medicines;
     private LocalDate date;
-    private String Instructions;
-    private int doctorRPPS;
     private Patient patient;
+    private Doctor doctor;
+    private Pharmacy pharmacy;
+    private String instructions;
+    private String rpps; // à enlever
     private boolean isValidate = false;
+
+    public Prescription(int id, String medicines, LocalDate date, Patient patient, Doctor doctor, Pharmacy pharmacy,
+            String instructions, boolean isValidate) {
+        this.id = id;
+        this.medicines = medicines;
+        this.date = date;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.pharmacy = pharmacy;
+        this.instructions = instructions;
+        this.isValidate = isValidate;
+    }
+
+    public Prescription(int id, String medicines, LocalDate date, Patient patient, Doctor doctor,
+            String instructions, boolean isValidate) {
+        this.id = id;
+        this.medicines = medicines;
+        this.date = date;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.instructions = instructions;
+        this.isValidate = isValidate;
+    }
+
+    public String getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(String medicines) {
+        this.medicines = medicines;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setRpps(String rpps) {
+        this.rpps = rpps;
+    }
 
     public boolean isValidate() {
         return isValidate;
@@ -21,7 +70,6 @@ public class Prescription {
         isValidate = validate;
     }
 
-
     public Patient getPatient() {
         return patient;
     }
@@ -30,14 +78,36 @@ public class Prescription {
         this.patient = patient;
     }
 
-
-    public Prescription(ArrayList<String> listMedicine, LocalDate date, String instructions, int doctorRPPS) {
-        this.listMedicine = listMedicine;
-        this.date = date;
-        this.Instructions = instructions;
-        this.doctorRPPS = doctorRPPS;
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
+    }
+
+    public Prescription(ArrayList<String> listMedicine, LocalDate date, String instructions, String doctorRPPS) {
+        this.listMedicine = listMedicine;
+        this.date = date;
+        this.instructions = instructions;
+        this.rpps = doctorRPPS;
+    }
 
     public ArrayList<String> getListMedicine() {
         return listMedicine;
@@ -56,24 +126,22 @@ public class Prescription {
     }
 
     public String getAdditionalInstructions() {
-        return Instructions;
+        return instructions;
     }
 
     public void setAdditionalInstructions(String additionalInstructions) {
-        this.Instructions = additionalInstructions;
+        this.instructions = additionalInstructions;
     }
 
-    public int getDoctorRPPS() {
-        return doctorRPPS;
+    public String getRpps() {
+        return rpps;
     }
-
-
 
     @Override
     public String toString() {
-        return "listMedicine=" + listMedicine +
-                "\ndate=" + date +
-                "\nInstructions='" + Instructions + '\'' +
-                "\ndoctorRPPS=" + doctorRPPS;
+        return " Medicines=" + medicines +
+                "\n Date=" + date +
+                "\n Instructions='" + instructions + '\'' +
+                "\n Doctor=" + doctor.getName();
     }
 }
