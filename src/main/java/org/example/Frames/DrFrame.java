@@ -20,7 +20,7 @@ public class DrFrame {
 
     public DrFrame(Doctor doctor) {
 
-        JFrame frame = new JFrame("Doctor");
+        JFrame frame = new JFrame(doctor.getName());
         frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);
 
@@ -32,26 +32,21 @@ public class DrFrame {
 
         // Edit tab
         JLabel name_label = new JLabel("Name:");
-        JLabel username_label = new JLabel("UserName:");
-        JLabel password_label = new JLabel("Password:");
         JLabel rpps_label = new JLabel("RPPS:");
+        JLabel password_label = new JLabel("Password:");
         JButton edit_btn = new JButton("Save Changes");
 
         JTextField name = new JTextField(8);
         name.setText(doctor.getName());
         JPasswordField pass = new JPasswordField(8);
         pass.setText(doctor.getPassword());
-        JTextField username = new JTextField(8);
-        username.setText(doctor.getUserName());
-        username.setEnabled(false);
         JTextField rpps = new JTextField(8);
         rpps.setText(doctor.getRpps());
+        rpps.setEnabled(false);
 
         // adding elements to edit panel
         edit_panel.add(name_label);
         edit_panel.add(name);
-        edit_panel.add(username_label);
-        edit_panel.add(username);
         edit_panel.add(password_label);
         edit_panel.add(pass);
         edit_panel.add(rpps_label);
@@ -90,19 +85,23 @@ public class DrFrame {
 
         // History of Prescriptions tab
         JLabel history_Prescriptions_label = new JLabel("Prescriptions");
-        JTextArea history_prescriptions = new JTextArea(4, 8);
+        JTextArea history_prescriptions = new JTextArea(10, 20);
 
         // adding elements to history prescriptions panel
+        JScrollPane scrollPane_pres_history = new JScrollPane(history_prescriptions);
+
         history_pres_panel.add(history_Prescriptions_label);
-        history_pres_panel.add(history_prescriptions);
+        history_pres_panel.add(scrollPane_pres_history);
+        // history_pres_panel.add(history_prescriptions);
 
         // Clients tab
         JLabel clients_label = new JLabel("Clients");
-        JTextArea clients = new JTextArea(4, 8);
+        JTextArea clients = new JTextArea(10, 20);
+        JScrollPane scrollPane_client_history = new JScrollPane(clients);
 
         // adding elements to Client panel
         client_panel.add(clients_label);
-        client_panel.add(clients);
+        client_panel.add(scrollPane_client_history);
 
         // Menu Bar
         JMenuBar menuBar = new JMenuBar();
@@ -125,7 +124,7 @@ public class DrFrame {
         JMenuItem historyItem = new JMenuItem("History", KeyEvent.VK_H);
         historyItem.addActionListener(e -> {
             String result = "";
-            for (var i : doctor.getPrescriptions()) {
+            for (var i : dataFromMySQL.PrescriptionsDoctorHistory(doctor)) {
                 result += i + "\n------------------\n";
             }
             history_prescriptions.setText(result);
@@ -144,7 +143,7 @@ public class DrFrame {
         JMenuItem viewClientsItem = new JMenuItem("View Clients");
         viewClientsItem.addActionListener(e -> {
             String result = "";
-            for (var i : doctor.getPatients()) {
+            for (var i : dataFromMySQL.DoctorsPatient(doctor)) {
                 result += i + "\n------------------\n";
             }
             clients.setText(result);

@@ -27,24 +27,12 @@ public class Main {
         String[] connexionSQL = { jdbcUrl, username, password };
         dataFromMySQL = new DataFromMySQL(connexionSQL);
         dataFromMySQL.initData();
-        /*
-         * dataFromMySQL.addPrescriptionToDB(2, "2", LocalDate.of(2018, 9, 24), 2, 2, 2,
-         * "2", false, connexionSQL);
-         */
-        for (Doctor d : dataFromMySQL.getDoctors()) {
-            System.out.println(d);
-        }
-
         start();
     }
 
     public static void start() {
 
-        // listUsers.add(new Doctor("1", "1", "1", 1));
-        // listUsers.add(new Pharmacy("2", "2", "2", 2,"hello"));
-        // listUsers.add(new Patient("3", "3", "3", 2,1,1,1,"hello"));
-
-        JFrame frame = new JFrame("Ordonnencement Numerique");
+        JFrame frame = new JFrame("Ordo'digit");
         frame.setSize(400, 300);
 
         JPanel panel1 = new JPanel();
@@ -58,35 +46,26 @@ public class Main {
         JButton sign_up = new JButton("Sign Up");
         JButton back_btn = new JButton("Back");
         final Boolean[] is_in_sign_up = { false };
-        JLabel username_label = new JLabel("Username:");
+        JLabel username_label = new JLabel("RPSS:");
         JTextField user = new JTextField(8);
         JTextField name = new JTextField(8);
         JPasswordField pass = new JPasswordField(8);
         JLabel name_label = new JLabel("Name:");
         JLabel profession_label = new JLabel("Profession:");
 
-        // Dr Inputs
-        JLabel drRPPS_label = new JLabel("RPPS:");
-        JTextField drRPPS = new JTextField(8);
-
         // Patient Inputs
         JLabel height_label = new JLabel("Height:");
         JLabel weight_label = new JLabel("Weight:");
-        JLabel sec_number_label = new JLabel("Security Number:");
         JLabel special_mention_label = new JLabel("Special Mentions:");
         JLabel age_label = new JLabel("Age:");
 
         JTextField age = new JTextField(8);
         JTextField height = new JTextField(8);
         JTextField weight = new JTextField(8);
-        JTextField sec_number = new JTextField(8);
         JTextArea special_mention = new JTextArea(3, 8);
 
         // Pharmacy Inputs
-        JLabel pharmacy_nbr_label = new JLabel("Pharmacy Number:");
         JLabel address_label = new JLabel("Address:");
-
-        JTextField pharmacy_nbr = new JTextField(8);
         JTextField address = new JTextField(8);
 
         // set visibility of used items when signing up
@@ -94,38 +73,20 @@ public class Main {
             public void set_visibility_patient(boolean check_visibility) {
                 height.setVisible(check_visibility);
                 weight.setVisible(check_visibility);
-                sec_number.setVisible(check_visibility);
                 special_mention.setVisible(check_visibility);
                 height_label.setVisible(check_visibility);
                 weight_label.setVisible(check_visibility);
-                sec_number_label.setVisible(check_visibility);
                 age_label.setVisible(check_visibility);
                 age.setVisible(check_visibility);
-                sec_number_label.setVisible(check_visibility);
                 special_mention_label.setVisible(check_visibility);
             }
 
             public void set_visibility_doctor(boolean check_visibility) {
-                drRPPS_label.setVisible(check_visibility);
-                drRPPS.setVisible(check_visibility);
             }
 
             public void set_visibility_pharmacy(boolean check_visibility) {
                 address.setVisible(check_visibility);
-                pharmacy_nbr.setVisible(check_visibility);
                 address_label.setVisible(check_visibility);
-                pharmacy_nbr_label.setVisible(check_visibility);
-            }
-        }
-        // to redo
-        class check_users {
-            public User isPresent(String user_val) {
-                for (var i : listUsers) {
-                    if (i.getUserName().equals(user_val)) {
-                        return i;
-                    }
-                }
-                return null;
             }
         }
 
@@ -137,7 +98,6 @@ public class Main {
         // Combo Box User Changes
         profession_CB.addActionListener(e -> {
             if (profession_CB.getSelectedItem() == "Doctor" && is_in_sign_up[0]) {
-
                 set_visibility set_V = new set_visibility();
                 set_V.set_visibility_patient(false);
                 set_V.set_visibility_pharmacy(false);
@@ -159,40 +119,41 @@ public class Main {
         sign_up.addActionListener(e -> {
             if (is_in_sign_up[0]) {
 
-                if (name.getText().isEmpty() || user.getText().isEmpty() || pass.getText().isEmpty()) {
+                if (name.getText().isEmpty() || pass.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Some Fields are empty!!");
 
                 } else if (profession_CB.getSelectedItem() == "Doctor"
-                        && (!drRPPS.getText().matches("-?\\d+(\\.\\d+)?") || drRPPS.getText().length() != 11)) {
+                        && (!user.getText().matches("-?\\d+(\\.\\d+)?") || user.getText().length() != 11)) {
                     JOptionPane.showMessageDialog(null, "RPPS must be a 11 length number!!");
 
                 } else if (profession_CB.getSelectedItem() == "Patient"
                         && (!height.getText().matches("-?\\d+(\\.\\d+)?")
                                 || !weight.getText().matches("-?\\d+(\\.\\d+)?")
-                                || !sec_number.getText().matches("-?\\d+(\\.\\d+)?")
-                                || sec_number.getText().length() != 13
+                                || !user.getText().matches("-?\\d+(\\.\\d+)?")
+                                || user.getText().length() != 13
                                 || !age.getText().matches("-?\\d+(\\.\\d+)?"))) {
                     JOptionPane.showMessageDialog(null, "Wrong Input!!!");
                 } else if (profession_CB.getSelectedItem() == "Pharmacist"
-                        && ((!pharmacy_nbr.getText().matches("-?\\d+(\\.\\d+)?")
-                                || pharmacy_nbr.getText().length() != 6)
+                        && ((!user.getText().matches("-?\\d+(\\.\\d+)?")
+                                || user.getText().length() != 6)
                                 || address.getText().isEmpty())) {
                     JOptionPane.showMessageDialog(null, "Wrong Input!!");
                 } else {
-                    check_users check_user = new check_users();
-                    if (check_user.isPresent(user.getText()) != null) {
+                    if (dataFromMySQL.isExistingDoctor(user.getText()) != null
+                            || dataFromMySQL.isExistingPatient(user.getText()) != null
+                            || dataFromMySQL.isExistingPharmacy(user.getText()) != null) {
                         JOptionPane.showMessageDialog(null, "User Already Present!!");
                     } else {
                         if (profession_CB.getSelectedItem() == "Patient") {
-                            dataFromMySQL.addPatientToDB(sec_number.getText(), name.getText(),
+                            dataFromMySQL.addPatientToDB(user.getText(), name.getText(),
                                     String.valueOf(pass.getPassword()), parseInt(age.getText()),
                                     parseInt(weight.getText()), parseInt(height.getText()), special_mention.getText());
                         } else if (profession_CB.getSelectedItem() == "Doctor") {
                             dataFromMySQL.addDoctorToDB(name.getText(), String.valueOf(pass.getPassword()),
-                                    drRPPS.getText());
+                                    user.getText());
 
                         } else if (profession_CB.getSelectedItem() == "Pharmacist") {
-                            dataFromMySQL.addPharmacyToDB(pharmacy_nbr.getText(), name.getText(),
+                            dataFromMySQL.addPharmacyToDB(user.getText(), name.getText(),
                                     String.valueOf(pass.getPassword()), address.getText());
                         }
 
@@ -220,8 +181,6 @@ public class Main {
                 name.setVisible(true);
                 back_btn.setVisible(true);
                 login_btn.setVisible(false);
-                drRPPS.setVisible(true);
-                drRPPS_label.setVisible(true);
                 profession_CB.setSelectedItem("Doctor");
             }
         });
@@ -232,11 +191,10 @@ public class Main {
             String password = pass.getText();
             User temp_user;
 
-            check_users check_user = new check_users();
-
             // Rémi
             if ((temp_user = dataFromMySQL.isExistingPatient(input)) != null
                     && profession_CB.getSelectedItem() == "Patient") {
+
                 if (temp_user.getPassword().equals(password)) {
                     frame.dispose();
                     new PatientFrame((Patient) temp_user);
@@ -247,6 +205,7 @@ public class Main {
 
             else if ((temp_user = dataFromMySQL.isExistingDoctor(input)) != null
                     && profession_CB.getSelectedItem() == "Doctor") {
+
                 if (temp_user.getPassword().equals(password)) {
                     frame.dispose();
                     new DrFrame((Doctor) temp_user);
@@ -257,6 +216,7 @@ public class Main {
 
             else if ((temp_user = dataFromMySQL.isExistingPharmacy(input)) != null
                     && profession_CB.getSelectedItem() == "Pharmacist") {
+
                 if (temp_user.getPassword().equals(password)) {
                     frame.dispose();
                     new PharmaFrame((Pharmacy) temp_user);
@@ -294,6 +254,17 @@ public class Main {
              */
         });
 
+        profession_CB.addActionListener(e -> {
+            if (profession_CB.getSelectedItem() == "Doctor") {
+                username_label.setText("RPSS:");
+                System.out.println("Test");
+            } else if (profession_CB.getSelectedItem() == "Patient") {
+                username_label.setText("NSS:");
+            } else if (profession_CB.getSelectedItem() == "Pharmacist") {
+                username_label.setText("Pharmacy Number:");
+            }
+        });
+
         back_btn.addActionListener(e -> {
             is_in_sign_up[0] = false;
             name_label.setVisible(false);
@@ -322,8 +293,6 @@ public class Main {
         panel1.add(pass);
 
         // Dr panel
-        panel1.add(drRPPS_label);
-        panel1.add(drRPPS);
 
         set_visibility set_V = new set_visibility();
         set_V.set_visibility_patient(false);
@@ -335,16 +304,12 @@ public class Main {
         panel1.add(height);
         panel1.add(weight_label);
         panel1.add(weight);
-        panel1.add(sec_number_label);
-        panel1.add(sec_number);
         panel1.add(special_mention_label);
         panel1.add(special_mention);
         panel1.add(age_label);
         panel1.add(age);
 
         // Pharmacist Panel
-        panel1.add(pharmacy_nbr_label);
-        panel1.add(pharmacy_nbr);
         panel1.add(address_label);
         panel1.add(address);
 

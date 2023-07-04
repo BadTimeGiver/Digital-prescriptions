@@ -2,7 +2,6 @@ package org.example.Users;
 
 abstract public class User {
     private String name;
-    private String userName;
     private String password;
 
     public String getName() {
@@ -11,10 +10,6 @@ abstract public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUserName() {
-        return userName;
     }
 
     public String getPassword() {
@@ -27,13 +22,11 @@ abstract public class User {
 
     User(String name, String userName, String password) {
         this.name = name;
-        this.userName = userName;
         this.password = password;
     }
 
     User(String name, String password) {
         this.name = name;
-        userName = "";
         this.password = password;
     }
 

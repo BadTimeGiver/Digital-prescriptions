@@ -17,7 +17,7 @@ public class PatientFrame {
 
     public PatientFrame(Patient patient) {
 
-        JFrame frame = new JFrame("Patient");
+        JFrame frame = new JFrame(patient.getName());
         frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);
 
@@ -30,10 +30,9 @@ public class PatientFrame {
 
         // Edit tab
         JLabel name_label = new JLabel("Name:");
-        JLabel username_label = new JLabel("UserName:");
         JLabel password_label = new JLabel("Password:");
         JLabel special_mentions_label = new JLabel("Special Mentions:");
-        JLabel sec_number_label = new JLabel("Security Number:");
+        JLabel sec_number_label = new JLabel("NSS:");
         JLabel weight_label = new JLabel("Weight:");
         JLabel height_label = new JLabel("Height:");
         JLabel age_label = new JLabel("Age:");
@@ -43,11 +42,9 @@ public class PatientFrame {
         name.setText(patient.getName());
         JPasswordField pass = new JPasswordField(8);
         pass.setText(patient.getPassword());
-        JTextField username = new JTextField(8);
-        username.setText(patient.getUserName());
-        username.setEnabled(false);
         JTextField sec_number = new JTextField(8);
         sec_number.setText(patient.getNss());
+        sec_number.setEnabled(false);
         JTextField special_mentions = new JTextField(8);
         special_mentions.setText(patient.getSpecialMentions());
         JTextField weight = new JTextField(8);
@@ -60,8 +57,6 @@ public class PatientFrame {
         // adding elements to edit profile panel
         edit_panel.add(name_label);
         edit_panel.add(name);
-        edit_panel.add(username_label);
-        edit_panel.add(username);
         edit_panel.add(password_label);
         edit_panel.add(pass);
         edit_panel.add(sec_number_label);
@@ -78,18 +73,21 @@ public class PatientFrame {
 
         // new prescriptions tab
         JLabel prescriptions_not_sent_label = new JLabel("Prescriptions not sent:");
-        JTextArea prescriptions_not_sent = new JTextArea(4, 8);
+        JTextArea prescriptions_not_sent = new JTextArea(10, 10);
+        JScrollPane scrollPane_pres_not_s = new JScrollPane(prescriptions_not_sent);
 
         // adding elements to new prescriptions panel
         new_presc_panel.add(prescriptions_not_sent_label);
-        new_presc_panel.add(prescriptions_not_sent);
+        new_presc_panel.add(scrollPane_pres_not_s);
 
         // history prescriptions tab
         JLabel prescriptions_sent_label = new JLabel("Prescriptions sent:");
-        JTextArea prescriptions_sent = new JTextArea(4, 8);
+        JTextArea prescriptions_sent = new JTextArea(10, 20);
+        JScrollPane scrollPane_pres_s = new JScrollPane(prescriptions_sent);
+
         // adding elements to history prescriptions panel
         history_presc_panel.add(prescriptions_sent_label);
-        history_presc_panel.add(prescriptions_sent);
+        history_presc_panel.add(scrollPane_pres_s);
 
         // Received items from pharmacy tab
         JLabel combo_box_label = new JLabel("Choose a prescription:");
@@ -110,11 +108,12 @@ public class PatientFrame {
 
         // send to pharmacy a prescriptions tab
         JLabel prescriptions_received_label = new JLabel("Prescriptions:");
-        JTextArea prescriptions_received = new JTextArea(4, 8);
+        JTextArea prescriptions_received = new JTextArea(10, 20);
+        JScrollPane scrollPane_pres_r = new JScrollPane(prescriptions_received);
 
         // adding elements to send a prescription to the pharmacy panel
         receive_panel.add(prescriptions_received_label);
-        receive_panel.add(prescriptions_received);
+        receive_panel.add(scrollPane_pres_r);
 
         // Menu Bar
         JMenuBar menuBar = new JMenuBar();

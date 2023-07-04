@@ -626,6 +626,86 @@ public class DataFromMySQL {
         return returnedPrescriptions;
     }
 
+    public ArrayList<Prescription> PrescriptionsDoctorHistory(Doctor doctor) {
+        ArrayList<Prescription> doctorPrescriptions = new ArrayList<>();
+
+        try {
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
+            String sqlQuery = "SELECT * FROM prescriptions WHERE rpps = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setString(1, doctor.getRpps());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String medicines = resultSet.getString("medicines");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
+                String rpps = resultSet.getString("rpps");
+                String numPharmacy = resultSet.getString("num_pharmacy");
+                String nss = resultSet.getString("nss");
+                String instructions = resultSet.getString("instructions");
+                boolean isValidate = resultSet.getBoolean("is_validate");
+
+                // Retrieve the associated patient and pharmacy based on foreign keys
+                Patient patient = findPatientByNSS(nss);
+                Pharmacy pharmacy = findPharmacyByNum(numPharmacy);
+
+                // Create a new Prescription object with the retrieved data
+                Prescription prescription = new Prescription(id, medicines, date, patient, doctor, pharmacy,
+                        instructions, isValidate);
+
+                // Add the prescription to the list of doctor's prescriptions
+                doctorPrescriptions.add(prescription);
+            }
+
+            // Close the result set, statement, and connection
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return doctorPrescriptions;
+    }
+
+    public ArrayList<Patient> DoctorsPatient(Doctor doctor) {
+        ArrayList<Patient> doctorPatients = new ArrayList<>();
+
+        try {
+            Connection connection = DriverManager.getConnection(connexionSQL[0], connexionSQL[1], connexionSQL[2]);
+            String sqlQuery = "SELECT DISTINCT patients.* FROM patients INNER JOIN prescriptions ON patients.nss = prescriptions.nss WHERE prescriptions.rpps = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setString(1, doctor.getRpps());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String nss = resultSet.getString("nss");
+                String name = resultSet.getString("name");
+                String password = resultSet.getString("password");
+                int age = resultSet.getInt("age");
+                int weight = resultSet.getInt("weight");
+                int height = resultSet.getInt("height");
+                String special_mentions = resultSet.getString("special_mentions");
+
+                // Create a new Patient object with the retrieved data
+                Patient patient = new Patient(name, password, nss, age, weight, height, special_mentions);
+
+                // Add the patient to the list of doctor's patients
+                doctorPatients.add(patient);
+            }
+
+            // Close the result set, statement, and connection
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return doctorPatients;
+    }
+
     public ArrayList<Prescription> PrescriptionValidated(Pharmacy pharmacy) {
         ArrayList<Prescription> validatedPrescriptions = new ArrayList<>();
 

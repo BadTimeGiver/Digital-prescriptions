@@ -15,7 +15,7 @@ public class PharmaFrame {
 
     public PharmaFrame(Pharmacy pharmacy) {
 
-        JFrame frame = new JFrame("Pharmacy");
+        JFrame frame = new JFrame(pharmacy.getName());
         frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);
 
@@ -42,15 +42,15 @@ public class PharmaFrame {
 
         // history prescriptions tab
         JLabel prescriptions_sent_label = new JLabel("Prescriptions Confirmed:");
-        JTextArea prescriptions_sent = new JTextArea(4, 8);
+        JTextArea prescriptions_sent = new JTextArea(10, 20);
+        JScrollPane scrollPane_pres_s = new JScrollPane(prescriptions_sent);
 
         // adding elements to history prescriptions panel
         history_presc_panel.add(prescriptions_sent_label);
-        history_presc_panel.add(prescriptions_sent);
+        history_presc_panel.add(scrollPane_pres_s);
 
         // Edit tab
         JLabel name_label = new JLabel("Name:");
-        JLabel username_label = new JLabel("UserName:");
         JLabel password_label = new JLabel("Password:");
         JLabel pharmacy_number_label = new JLabel("Pharmacy Num:");
         JLabel address_label = new JLabel("Address:");
@@ -60,19 +60,15 @@ public class PharmaFrame {
         name.setText(pharmacy.getName());
         JPasswordField pass = new JPasswordField(8);
         pass.setText(pharmacy.getPassword());
-        JTextField username = new JTextField(8);
-        username.setText(pharmacy.getUserName());
-        username.setEnabled(false);
         JTextField pharmacy_number = new JTextField(8);
         pharmacy_number.setText(pharmacy.getId());
+        pharmacy_number.setEnabled(false);
         JTextField address = new JTextField(8);
         address.setText(pharmacy.getAddress());
 
         // adding elements to panel
         edit_panel.add(name_label);
         edit_panel.add(name);
-        edit_panel.add(username_label);
-        edit_panel.add(username);
         edit_panel.add(password_label);
         edit_panel.add(pass);
         edit_panel.add(pharmacy_number_label);
